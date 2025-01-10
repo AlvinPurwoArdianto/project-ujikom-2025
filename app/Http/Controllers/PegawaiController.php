@@ -103,7 +103,7 @@ class PegawaiController extends Controller
         $pegawai->password = Hash::make($request->password);
         $pegawai->tanggal_masuk = $request->tanggal_masuk;
         $pegawai->gaji = $request->gaji;
-        $pegawai->status_pegawai = $request->status_pegawai;
+        $pegawai->status_pegawai = 0;
         $pegawai->id_jabatan = $request->id_jabatan;
 
         $pegawai->provinsi = $request->provinsi;

@@ -47,25 +47,25 @@ class BerkasController extends Controller
         // Proses upload file CV
         if ($request->hasFile('cv')) {
             $file = $request->file('cv');
-            $filePath = $file->store('cv', 'public'); // Menggunakan disk public
+            $filePath = $file->store('cv', 'public');
             $berkas->file_cv = $filePath;
         }
         // Proses upload file KK
         if ($request->hasFile('kk')) {
             $file = $request->file('kk');
-            $filePath = $file->store('kk', 'public'); // Menggunakan disk public
+            $filePath = $file->store('kk', 'public');
             $berkas->file_kk = $filePath;
         }
         // Proses upload file KTP
         if ($request->hasFile('ktp')) {
             $file = $request->file('ktp');
-            $filePath = $file->store('ktp', 'public'); // Menggunakan disk public
+            $filePath = $file->store('ktp', 'public');
             $berkas->file_ktp = $filePath;
         }
         // Proses upload file AKTE
         if ($request->hasFile('akte')) {
             $file = $request->file('akte');
-            $filePath = $file->store('akte', 'public'); // Menggunakan disk public
+            $filePath = $file->store('akte', 'public');
             $berkas->file_akte = $filePath;
         }
 

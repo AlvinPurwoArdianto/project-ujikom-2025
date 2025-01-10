@@ -1,4 +1,15 @@
 <style>
+    .sidenav {
+        height: 100vh;
+        /* Mengatur tinggi sidebar agar penuh layar */
+        overflow-y: auto;
+        /* Menambahkan scroll jika kontennya melebihi layar */
+    }
+
+    .sidenav-header {
+        padding: 1rem;
+    }
+
     .nav-item.active .nav-link {
         background-color: #f5f5f5;
         color: #5e72e4;
@@ -16,7 +27,7 @@
     }
 </style>
 
-<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-4"
+<aside class="sidenav bg-white navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl fixed-start ms-4"
     id="sidenav-main">
     <div class="sidenav-header">
         <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none"
@@ -55,7 +66,7 @@
                 </a>
             </li>
 
-            <!-- Billing Menu -->
+            <!-- Penggajian Menu -->
             <li class="nav-item {{ request()->is('user/penggajian') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ url('user/penggajian') }}">
                     <div
@@ -77,6 +88,17 @@
                 </a>
             </li>
 
+            <!-- Berkas Menu -->
+            <li class="nav-item {{ request()->is('user/berkas') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ url('user/berkas') }}">
+                    <div
+                        class="icon icon-shape icon-sm border-radius-md text-center me-2 d-flex align-items-center justify-content-center">
+                        <i class="ni ni-calendar-grid-58 text-danger text-sm opacity-10"></i>
+                    </div>
+                    <span class="nav-link-text ms-1">Berkas</span>
+                </a>
+            </li>
+
             <li class="nav-item mt-3">
                 <h6 class="ps-4 ms-2 text-uppercase text-xs font-weight-bolder opacity-6">Account</h6>
             </li>
@@ -91,9 +113,6 @@
                     <span class="nav-link-text ms-1">Profile</span>
                 </a>
             </li>
-
-            <!-- Logout Menu -->
-
         </ul>
     </div>
 

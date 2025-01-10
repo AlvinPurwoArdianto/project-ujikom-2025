@@ -80,7 +80,7 @@
                             </div>
                         @endif
                     </div>
-                    <div class="row mt-3">
+                    {{-- <div class="row mt-3">
                         <div class="col-3">
                             <select id="provinsi" name="provinsi" class="form-control">
                                 <option value="" selected disabled>-- Pilih Provinsi --</option>
@@ -101,7 +101,7 @@
                                 <option value="" selected disabled>-- Pilih Kelurahan --</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                 </form>
             </div>
             <div class="card-body">
@@ -121,10 +121,6 @@
                                     <th>Umur</th>
                                     <th>Email</th>
                                     <th>Gaji</th>
-                                    <th>Provinsi</th>
-                                    <th>Kota</th>
-                                    <th>Kabupaten</th>
-                                    <th>Kelurahan</th>
                                 </tr>
                             </thead>
                             <tbody id="myTable">
@@ -143,17 +139,6 @@
                                             <td>{{ $item->umur }}</td>
                                             <td>{{ $item->email }}</td>
                                             <td>{{ 'Rp ' . number_format($item->gaji, 0, ',', '.') }}</td>
-                                            <td>
-                                                {{ $item->pegawai ? $item->pegawai->nama_provinsi : 'Tidak ada provinsi' }}
-                                            </td>
-                                            <td>
-                                                {{ $item->pegawai ? $item->pegawai->nama_kota : 'Tidak ada kota' }}
-                                            </td>
-                                            <td>
-                                                {{ $item->pegawai ? $item->pegawai->nama_kabupaten : 'Tidak ada kabupaten' }}
-                                            </td>
-                                            <td>
-                                                {{ $item->pegawai ? $item->pegawai->nama_kelurahan : 'Tidak adakelurahan' }}
                                             </td>
                                         </tr>
                                     @endif
