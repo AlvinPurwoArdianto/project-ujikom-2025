@@ -144,6 +144,8 @@
                                                 <a class="dropdown-item" data-bs-toggle="modal"
                                                     data-bs-target="#pegawaiDetailModal{{ $data->id }}">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
+                                                <a class="dropdown-item" href="#">
+                                                    <i class="bi bi-eye-fill"></i> Impersonate User</a>
                                                 <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"
                                                     class="dropdown-item" data-confirm-delete="true"><i
                                                         class="bx bx-trash me-1"></i>
@@ -186,14 +188,6 @@
                                             </p>
                                             <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
                                             <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
-
-                                            {{-- <p><strong>Provinsi:</strong>{{ $data->nama_provinsi ?? 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Kota/Kabupaten:</strong> {{ $data->nama_kota ?? 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Kecamatan:</strong> {{ $data->nama_kecamatan ?? 'Tidak Ada' }} </p>
-                                            <p><strong>Kelurahan:</strong> {{ $data->nama_kelurahan ?? 'Tidak Ada' }} </p> --}}
-
                                             <p><strong>Ditempatkan
                                                     di:</strong>{{ $data->nama_provinsi . ', ' . $data->nama_kota . ', ' . $data->nama_kecamatan . ', ' . $data->nama_kelurahan }}
                                             </p>

@@ -31,13 +31,6 @@ class PenggajianController extends Controller
         return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
     }
 
-    public function create1()
-    {
-        $penggajian = Penggajian::all();
-        $pegawai = User::all(); // Mengambil semua pegawai
-        return view('user.penggajian.index1', compact('penggajian', 'pegawai'));
-    }
-
     public function store(Request $request)
     {
         // Validasi input
@@ -60,30 +53,6 @@ class PenggajianController extends Controller
         }
 
         return redirect()->route('penggajian.index')->with('success', 'Penggajian berhasil ditambahkan dan total gaji diperbarui.');
-    }
-
-    public function store1(Request $request)
-    {
-        // Validasi input
-        // $request->validate([...]);
-
-        $penggajian = new Penggajian();
-        $penggajian->id_user = $request->id_user; // Menggunakan id_user
-        $penggajian->tanggal_gaji = $request->tanggal_gaji;
-        $penggajian->jumlah_gaji = $request->jumlah_gaji;
-        $penggajian->bonus = $request->bonus;
-        $penggajian->potongan = $request->potongan;
-        $penggajian->save();
-
-        // Update total gaji pegawai
-        $pegawai = User::find($request->id_user);
-        if ($pegawai) {
-            $total_gaji = $request->jumlah_gaji + ($request->bonus) - ($request->potongan);
-            $pegawai->gaji += $total_gaji;
-            $pegawai->save();
-        }
-
-        return redirect()->route('penggajian.index1')->with('success', 'Penggajian berhasil ditambahkan dan total gaji diperbarui.');
     }
 
     public function update(Request $request, $id)

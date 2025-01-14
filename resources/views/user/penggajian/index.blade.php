@@ -1,6 +1,5 @@
 @extends('layouts.user.template')
 @section('content')
-
     <div class="container-fluid py-4">
         <div class="row">
             <div class="col-12">
@@ -15,9 +14,14 @@
                             <table class="table align-items-center mb-0">
                                 <thead>
                                     <tr>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Namai</th>
-                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Jumlah</th>    
+                                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No
+                                        </th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Namai</th>
+                                        <th
+                                            class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">
+                                            Jumlah</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -54,5 +58,4 @@
             </div>
         </div>
     </div>
-
 @endsection
