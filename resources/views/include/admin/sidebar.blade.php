@@ -127,17 +127,17 @@
             </ul>
         </li>
 
-        {{-- <li class="menu-header small text-uppercase">
+        <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Data Backup</span>
         </li>
         <li class="menu-item">
-            <a href="{{ route('izin.sakit') }}" class="menu-link">
+            <a href="#" class="menu-link">
                 <i class="menu-icon bx bx-export"></i>
                 <div data-i18n="Basic">
                     Backup Database
                 </div>
             </a>
-        </li> --}}
+        </li>
     </ul>
     <!-- Add AJAX Script Here -->
     <script>
