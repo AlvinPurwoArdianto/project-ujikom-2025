@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackupDatabaseExport;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
+use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
@@ -29,7 +30,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 
     // Pegawai Management
     Route::resource('pegawai', PegawaiController::class);
-    Route::get('pegawai/akun', [PegawaiController::class, 'indexAdmin'])->name('pegawai.admin');
+    // Route::get('pegawai/akun', [PegawaiController::class, 'indexAdmin'])->name('pegawai.admin');
+
+    // Impersonate
+    Route::get('impersonate/{id}', [ImpersonateController::class, 'startImpersonation'])->name('impersonate');
+    Route::get('/stop-impersonation', [ImpersonateController::class, 'stopImpersonation'])->name('impersonate.stop');
 
     // Penggajian Management
     Route::resource('penggajian', PenggajianController::class);
@@ -66,7 +71,7 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     // Dashboard
     Route::get('dashboard', function () {
         return view('user.dashboard.index');
-    });
+    })->name('user.dashboard');
 
     // Absensi Management
     Route::get('absensi', [WelcomeController::class, 'index'])->middleware('auth');

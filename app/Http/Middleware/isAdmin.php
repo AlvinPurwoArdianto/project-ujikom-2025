@@ -16,7 +16,11 @@ class isAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user()->is_admin === 1) {
+        if (!Auth::check()) {
+            return redirect()->route('login'); // Atau bisa redirect ke halaman login
+        }
+
+        if (Auth::user()->is_admin == 1) {
             return $next($request);
         } else {
             return abort(403);

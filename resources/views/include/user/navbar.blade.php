@@ -22,6 +22,13 @@
                     </div>
                 </a>
             </li>
+
+            @if (session('impersonate'))
+                <a href="{{ route('impersonate.stop') }}" class="btn btn-danger">
+                    Stop Impersonation
+                </a>
+            @endif
+
             <li class="nav-item d-xl-none ps-3 pe-0 d-flex align-items-center">
                 <a href="javascript:void(0);" class="nav-link text-white p-0" id="iconNavbarSidenav">
                     <div class="sidenav-toggler-inner">
@@ -33,8 +40,7 @@
             </li>
             <li class="nav-item px-3 d-flex align-items-center">
                 <a href="javascript:void(0);" class="nav-link text-white p-0"></a>
-                    <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
-                </a>
+                <i class="fa fa-cog fixed-plugin-button-nav cursor-pointer"></i>
             </li>
         </ul>
     </div>

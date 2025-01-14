@@ -30,11 +30,11 @@
                 <div data-i18n="Authentications">Management Karyawan</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item {{ request()->routeIs('pegawai.admin') ? 'active' : '' }}">
+                {{-- <li class="menu-item {{ request()->routeIs('pegawai.admin') ? 'active' : '' }}">
                     <a href="{{ route('pegawai.admin') }}" class="menu-link">
                         <div data-i18n="Basic">Akun Admin</div>
                     </a>
-                </li>
+                </li> --}}
                 <li class="menu-item {{ request()->routeIs('jabatan.*') ? 'active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="menu-link">
                         <div data-i18n="Basic">Jabatan</div>

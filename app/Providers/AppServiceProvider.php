@@ -42,7 +42,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Route::middlewareGroup('web', [
             \App\Http\Middleware\IsAdmin::class,
-            // Middleware lainnya
         ]);
     }
 
