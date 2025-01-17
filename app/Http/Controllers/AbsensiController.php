@@ -62,6 +62,7 @@ class AbsensiController extends Controller
         }
 
         $note         = null;
+        $status       = 'Hadir';                                         // Default status adalah Hadir
         $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // Waktu batas telat
 
         if ($currentTime->greaterThan($latenessTime)) {
@@ -77,13 +78,19 @@ class AbsensiController extends Controller
             } else {
                 $note = "Telat $minutes menit";
             }
+
+            $status = 'Telat'; // Jika telat, status diubah jadi 'Telat'
+        } else {
+            $note = "Hadir tepat waktu"; // Jika tidak telat, catatan "Hadir tepat waktu"
         }
 
+        // Menyimpan data absensi
         Absensi::create([
             'id_user'       => $request->id_user,
             'tanggal_absen' => $currentTime->toDateString(),
             'jam_masuk'     => $currentTime->toTimeString(),
             'note'          => $note,
+            'status'        => $status, // Menyimpan status (Hadir atau Telat)
         ]);
 
         return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
@@ -102,9 +109,7 @@ class AbsensiController extends Controller
      */
     public function edit($id)
     {
-        $absensi = Absensi::findOrFail($id);
-        $pegawai = User::all();
-        return view('user.absensi.index', compact('absensi', 'pegawai'));
+        //
     }
 
     /**
@@ -157,7 +162,7 @@ class AbsensiController extends Controller
         $absensi                = new Absensi();
         $absensi->id_user       = $id_user;
         $absensi->tanggal_absen = $tanggal_absen;
-        $absensi->status        = 'sakit';
+        $absensi->status        = 'Sakit';
         $absensi->note          = $request->note;
 
         if ($request->hasFile('photo')) {

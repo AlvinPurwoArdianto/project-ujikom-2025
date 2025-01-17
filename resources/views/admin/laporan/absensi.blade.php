@@ -38,9 +38,9 @@
                         </div>
                         <div class="col-3">
                             <select name="status" class="form-control">
-                                <option value="">Pilih Status</option>
+                                <option selected disabled>Pilih Status</option>
                                 <option value="Hadir" {{ request('status') == 'Hadir' ? 'selected' : '' }}>Hadir</option>
-                                <option value="Pulang" {{ request('status') == 'Pulang' ? 'selected' : '' }}>Pulang</option>
+                                <option value="Telat" {{ request('status') == 'Telat' ? 'selected' : '' }}>Telat</option>
                                 <option value="Sakit" {{ request('status') == 'Sakit' ? 'selected' : '' }}>Sakit</option>
                             </select>
                         </div>
