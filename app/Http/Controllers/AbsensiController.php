@@ -53,15 +53,30 @@ class AbsensiController extends Controller
             return redirect()->route('absensi.index')->with('error', 'User tidak ditemukan!');
         }
 
-        $sudahAbsen = Absensi::where('id_user', $pegawai->id)->whereDate('created_at', Carbon::today('Asia/Jakarta'))->first();
+        $sudahAbsen = Absensi::where('id_user', $pegawai->id)
+            ->whereDate('created_at', Carbon::today('Asia/Jakarta'))
+            ->first();
+
         if ($sudahAbsen) {
             return redirect()->route('absensi.index')->with('error', 'Anda telah melakukan Absen Hari Ini!');
         }
 
         $note         = null;
-        $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta');
+        $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // Waktu batas telat
+
         if ($currentTime->greaterThan($latenessTime)) {
-            $note = 'Telat';
+            $diffInMinutes = $latenessTime->diffInMinutes($currentTime);
+
+                                                   // Menghitung jam dan menit
+            $hours   = floor($diffInMinutes / 60); // Jam
+            $minutes = $diffInMinutes % 60;        // Sisa menit setelah jam dihitung
+
+            // Menampilkan hasil dalam format "Telat X jam Y menit"
+            if ($hours > 0) {
+                $note = "Telat $hours jam $minutes menit";
+            } else {
+                $note = "Telat $minutes menit";
+            }
         }
 
         Absensi::create([
@@ -72,7 +87,6 @@ class AbsensiController extends Controller
         ]);
 
         return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
-
     }
 
     /**
