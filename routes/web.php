@@ -1,17 +1,16 @@
 <?php
 
+use App\Http\Controllers\AbsensiController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackupDatabaseExport;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
-use App\Http\Controllers\ImpersonateController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
 use App\Http\Controllers\SocialiteController;
-use App\Http\Controllers\WelcomeController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -33,8 +32,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     // Route::get('pegawai/akun', [PegawaiController::class, 'indexAdmin'])->name('pegawai.admin');
 
     // Impersonate
-    Route::get('impersonate/{id}', [ImpersonateController::class, 'startImpersonation'])->name('impersonate');
-    Route::get('/stop-impersonation', [ImpersonateController::class, 'stopImpersonation'])->name('impersonate.stop');
+    // Route::get('impersonate/{id}', [ImpersonateController::class, 'startImpersonation'])->name('impersonate');
+    // Route::get('/stop-impersonation', [ImpersonateController::class, 'stopImpersonation'])->name('impersonate.stop');
 
     // Penggajian Management
     Route::resource('penggajian', PenggajianController::class);
@@ -47,7 +46,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::get('cuti/notifications', [CutisController::class, 'getNotifications'])->name('cuti.notifications');
     Route::put('cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
     Route::put('cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
-    Route::get('izin-sakit', [WelcomeController::class, 'izinSakit'])->name('izin.sakit');
+    Route::get('izin-sakit', [AbsensiController::class, 'izinSakit'])->name('izin.sakit');
 
     // Berkas Management
     Route::resource('berkas', BerkasController::class);
@@ -74,10 +73,10 @@ Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     })->name('user.dashboard');
 
     // Absensi Management
-    Route::get('absensi', [WelcomeController::class, 'index'])->middleware('auth');
-    Route::resource('absensi', WelcomeController::class)->names('welcome');
-    Route::post('absen-sakit', [WelcomeController::class, 'absenSakit'])->name('welcome.absenSakit');
-    Route::post('absen-pulang', [WelcomeController::class, 'absenPulang'])->name('welcome.absenPulang');
+    Route::get('absensi', [AbsensiController::class, 'index'])->middleware('auth');
+    Route::resource('absensi', AbsensiController::class);
+    Route::post('absen-sakit', [AbsensiController::class, 'absenSakit'])->name('absensi.absenSakit');
+    Route::post('absen-pulang', [AbsensiController::class, 'absenPulang'])->name('absensi.absenPulang');
 
     // Penggajian Management
     Route::get('penggajian', [PenggajianController::class, 'index1'])->name('penggajian.index1');

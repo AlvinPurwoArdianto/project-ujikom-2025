@@ -25,11 +25,11 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <form action="{{ route('welcome.absenSakit') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('absensi.absenSakit') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="mb-3">
                                 <label for="sickLeaveFile" class="form-label">Upload File Surat Sakit</label>
-                                <input type="file" class="form-control" id="foto" name="foto" required
+                                <input type="file" class="form-control" id="photo" name="photo" required
                                     accept="image/*">
                             </div>
                             <div class="modal-footer">
@@ -48,7 +48,7 @@
 
                 let formData = new FormData(this);
 
-                fetch("{{ route('welcome.absenSakit') }}", {
+                fetch("{{ route('absensi.absenSakit') }}", {
                         method: "POST",
                         body: formData,
                         headers: {
@@ -84,7 +84,7 @@
                 data-bs-backdrop="static">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
-                        <form action="{{ route('welcome.store') }}" method="POST">
+                        <form action="{{ route('absensi.store') }}" method="POST">
                             @csrf
                             <div class="modal-header">
                                 <h5 class="modal-title" id="absenMasukLabel">Absen Masuk</h5>
@@ -95,7 +95,7 @@
                             <div class="mb-3">
                                 <table class="table table-hover text-center">
                                     <td>
-                                        <form action="{{ route('welcome.store') }}" method="POST">
+                                        <form action="{{ route('absensi.store') }}" method="POST">
                                             @csrf
                                             <button type="submit" class="btn btn-outline-primary"
                                                 style="width: 200px">Simpan Absen
@@ -110,7 +110,7 @@
 
                                         @foreach ($absensi as $data)
                                             @if ($data->tanggal_absen == $today && is_null($data->jam_keluar) && !$absenPulangDisplayed)
-                                                <form action="{{ route('welcome.update', $data->id) }}" method="POST"
+                                                <form action="{{ route('absensi.update', $data->id) }}" method="POST"
                                                     onsubmit="disableButton(this)">
                                                     @csrf
                                                     @method('PUT')

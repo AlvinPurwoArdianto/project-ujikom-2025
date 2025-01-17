@@ -56,7 +56,7 @@
                                                                 aria-label="Close"></button>
                                                         </div>
                                                         <div class="modal-body text-center">
-                                                            <img src="{{ asset('uploads/' . $data->photo) }}"
+                                                            <img src="{{ asset('storage/' . $data->photo) }}"
                                                                 alt="Surat Sakit" class="img-fluid rounded">
                                                         </div>
                                                     </div>

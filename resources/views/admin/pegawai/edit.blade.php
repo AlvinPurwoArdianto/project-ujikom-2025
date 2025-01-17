@@ -146,7 +146,7 @@
                             </select>
                         </div>
                     </div>
-    
+
                     <!-- Save Button -->
                     <div class="row justify-content-end">
                         <div class="col-sm-10">
@@ -158,9 +158,9 @@
             </div>
         </div>
     </div>
-    @endsection
-    
-    @push('scripts')
+@endsection
+
+@push('scripts')
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             const apiBaseUrl = 'https://www.emsifa.com/api-wilayah-indonesia/api';
@@ -168,72 +168,76 @@
             const kabupatenSelect = document.getElementById('kabupaten');
             const kecamatanSelect = document.getElementById('kecamatan');
             const kelurahanSelect = document.getElementById('kelurahan');
-    
+
             // Fetch data provinsi and select the existing value if any
             fetch(`${apiBaseUrl}/provinces.json`)
                 .then(response => response.json())
                 .then(data => {
                     data.forEach(provinsi => {
-                        provinsiSelect.innerHTML += `<option value="${provinsi.id}">${provinsi.name}</option>`;
+                        provinsiSelect.innerHTML +=
+                            `<option value="${provinsi.id}">${provinsi.name}</option>`;
                     });
                     provinsiSelect.value = "{{ $pegawai->provinsi }}"; // Set selected value if available
                     loadKabupaten();
                 });
-    
+
             // Event listener for Kabupaten
             provinsiSelect.addEventListener('change', loadKabupaten);
-    
+
             function loadKabupaten() {
                 const provinsiId = provinsiSelect.value;
                 kabupatenSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kabupaten --</option>';
                 kecamatanSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kecamatan --</option>';
                 kelurahanSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
-    
+
                 if (provinsiId) {
                     fetch(`${apiBaseUrl}/regencies/${provinsiId}.json`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(kabupaten => {
-                                kabupatenSelect.innerHTML += `<option value="${kabupaten.id}">${kabupaten.name}</option>`;
+                                kabupatenSelect.innerHTML +=
+                                    `<option value="${kabupaten.id}">${kabupaten.name}</option>`;
                             });
                             kabupatenSelect.value = "{{ $pegawai->kabupaten }}";
                             loadKecamatan();
                         });
                 }
             }
-    
+
             kabupatenSelect.addEventListener('change', loadKecamatan);
-    
+
             function loadKecamatan() {
                 const kabupatenId = kabupatenSelect.value;
                 kecamatanSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kecamatan --</option>';
                 kelurahanSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
-    
+
                 if (kabupatenId) {
                     fetch(`${apiBaseUrl}/districts/${kabupatenId}.json`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(kecamatan => {
-                                kecamatanSelect.innerHTML += `<option value="${kecamatan.id}">${kecamatan.name}</option>`;
+                                kecamatanSelect.innerHTML +=
+                                    `<option value="${kecamatan.id}">${kecamatan.name}</option>`;
                             });
                             kecamatanSelect.value = "{{ $pegawai->kecamatan }}";
                             loadKelurahan();
                         });
                 }
             }
-    
+
             kecamatanSelect.addEventListener('change', loadKelurahan);
-    
+
             function loadKelurahan() {
                 const kecamatanId = kecamatanSelect.value;
                 kelurahanSelect.innerHTML = '<option value="" selected disabled>-- Pilih Kelurahan --</option>';
-    
+
                 if (kecamatanId) {
                     fetch(`${apiBaseUrl}/villages/${kecamatanId}.json`)
                         .then(response => response.json())
                         .then(data => {
                             data.forEach(kelurahan => {
-                                kelurahanSelect.innerHTML += `<option value="${kelurahan.id}">${kelurahan.name}</option>`;
+                                kelurahanSelect.innerHTML +=
+                                    `<option value="${kelurahan.id}">${kelurahan.name}</option>`;
                             });
                             kelurahanSelect.value = "{{ $pegawai->kelurahan }}";
                         });
@@ -241,4 +245,4 @@
             }
         });
     </script>
-    @endpush
+@endpush

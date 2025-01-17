@@ -145,8 +145,8 @@
                                                     data-bs-target="#pegawaiDetailModal{{ $data->id }}">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
 
-                                                <a class="dropdown-item" href="{{ route('impersonate', $data->id) }}">
-                                                    <i class="bi bi-eye-fill"></i> Impersonate User</a>
+                                                {{-- <a class="dropdown-item" href="{{ route('impersonate', $data->id) }}">
+                                                    <i class="bi bi-eye-fill"></i> Impersonate User</a> --}}
 
                                                 <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"
                                                     class="dropdown-item" data-confirm-delete="true"><i

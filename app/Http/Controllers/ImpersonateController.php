@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -55,7 +54,7 @@ class ImpersonateController extends Controller
         $adminId = session('impersonate');
 
         // Pastikan ada session impersonasi yang valid
-        if (!$adminId) {
+        if (! $adminId) {
             return redirect('/')->with('error', 'Tidak ada sesi impersonasi yang ditemukan.');
         }
 

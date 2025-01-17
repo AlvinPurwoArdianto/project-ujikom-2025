@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Penggajian;
@@ -11,7 +10,7 @@ class PenggajianController extends Controller
     public function index()
     {
         $penggajian = Penggajian::latest()->get();
-        $pegawai = User::all(); // Mengambil semua pegawai
+        $pegawai    = User::all(); // Mengambil semua pegawai
         confirmDelete('Hapus Penggajian!', 'Apakah Anda Yakin?');
         return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
     }
@@ -19,7 +18,7 @@ class PenggajianController extends Controller
     public function index1()
     {
         $penggajian = Penggajian::latest()->get();
-        $pegawai = User::all(); // Mengambil semua pegawai
+        $pegawai    = User::all(); // Mengambil semua pegawai
         confirmDelete('Hapus Penggajian!', 'Apakah Anda Yakin?');
         return view('user.penggajian.index', compact('penggajian', 'pegawai'));
     }
@@ -27,21 +26,18 @@ class PenggajianController extends Controller
     public function create()
     {
         $penggajian = Penggajian::all();
-        $pegawai = User::all(); // Mengambil semua pegawai
+        $pegawai    = User::all(); // Mengambil semua pegawai
         return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
     }
 
     public function store(Request $request)
     {
-        // Validasi input
-        // $request->validate([...]);
-
-        $penggajian = new Penggajian();
-        $penggajian->id_user = $request->id_user; // Menggunakan id_user
+        $penggajian               = new Penggajian();
+        $penggajian->id_user      = $request->id_user; // Menggunakan id_user
         $penggajian->tanggal_gaji = $request->tanggal_gaji;
-        $penggajian->jumlah_gaji = $request->jumlah_gaji;
-        $penggajian->bonus = $request->bonus;
-        $penggajian->potongan = $request->potongan;
+        $penggajian->jumlah_gaji  = $request->jumlah_gaji;
+        $penggajian->bonus        = $request->bonus;
+        $penggajian->potongan     = $request->potongan;
         $penggajian->save();
 
         // Update total gaji pegawai
@@ -57,12 +53,12 @@ class PenggajianController extends Controller
 
     public function update(Request $request, $id)
     {
-        $penggajian = Penggajian::findOrFail($id);
-        $penggajian->id_user = $request->id_user; // Menggunakan id_user
+        $penggajian               = Penggajian::findOrFail($id);
+        $penggajian->id_user      = $request->id_user; // Menggunakan id_user
         $penggajian->tanggal_gaji = $request->tanggal_gaji;
-        $penggajian->jumlah_gaji = $request->jumlah_gaji;
-        $penggajian->bonus = $request->bonus;
-        $penggajian->potongan = $request->potongan;
+        $penggajian->jumlah_gaji  = $request->jumlah_gaji;
+        $penggajian->bonus        = $request->bonus;
+        $penggajian->potongan     = $request->potongan;
         $penggajian->save();
 
         // Update total gaji pegawai
