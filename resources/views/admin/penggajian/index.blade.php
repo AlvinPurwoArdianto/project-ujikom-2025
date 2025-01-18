@@ -104,11 +104,11 @@
                         <tr>
                             <th>No</th>
                             <th>Nama Pegawai</th>
-                            <th>Jabatan</th>
                             <th>Tanggal Gaji</th>
-                            <th>Jumlah Gaji</th>
+                            <th>Gaji Pokok</th>
                             <th>Jumlah Bonus</th>
                             <th>Jumlah Potongan</th>
+                            <th>Gaji Bersih</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
@@ -117,11 +117,12 @@
                             <tr>
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
-                                <td>{{ $data->pegawai->jabatan->nama_jabatan }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_gaji)->translatedFormat('d F Y') }}</td>
-                                <td>{{ $data->jumlah_gaji }}</td>
-                                <td>{{ $data->bonus }}</td>
-                                <td>{{ $data->potongan }}</td>
+                                <td>{{ number_format($data->jumlah_gaji, 0, ',', '.') }}</td> <!-- Format gaji -->
+                                <td>{{ number_format($data->bonus, 0, ',', '.') }}</td> <!-- Format bonus -->
+                                <td>{{ number_format($data->potongan, 0, ',', '.') }}</td> <!-- Format potongan -->
+                                <td>{{ number_format($data->jumlah_gaji + $data->bonus - $data->potongan, 0, ',', '.') }}
+                                </td> <!-- Gaji Bersih -->
                                 <td>
                                     <form action="{{ route('penggajian.destroy', $data->id) }}" method="POST">
                                         @csrf
@@ -251,7 +252,9 @@
                                         @if ($data->is_admin == 0)
                                             <option value="{{ $data->id }}"
                                                 {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
-                                                data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}">
+                                                data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}"
+                                                data-telat="{{ $data->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString()) ? $data->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString())->note : 'Hadir tepat waktu' }}"
+                                                data-gaji="{{ $data->gaji }}">
                                                 {{ $data->nama_pegawai }}
                                             </option>
                                         @endif
@@ -259,37 +262,44 @@
                                 </select>
                             </div>
                             <div class="col mb-0">
-                                <label class="col-sm-2 col-form-label" for="basic-default-name">Jabatan</label>
+                                <label class="col-sm-2 col-form-label" for="jabatan">Jabatan</label>
                                 <div class="col">
-                                    <select name="jabatan" id="jabatan" class="form-control" disabled>
-                                        <option>-- Pilih Jabatan --</option>
-                                    </select>
+                                    <input type="text" class="form-control" id="jabatan" name="jabatan" disabled>
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col mb-0">
-                                <label for="nameBasic" class="form-label">Tanggal Gaji</label>
+                                <label for="tanggal_gaji" class="form-label">Tanggal Gaji</label>
                                 <input type="date" class="form-control" name="tanggal_gaji" required>
                             </div>
                             <div class="col mb-0">
-                                <label class="col col-form-label" for="basic-default-name">Jumlah Nominal <span
+                                <label for="jumlah_gaji" class="col col-form-label">Jumlah Nominal <span
                                         class="text-danger">*</span></label>
                                 <div class="col">
-                                    <input type="number" class="form-control" name="jumlah_gaji" required>
+                                    <input type="number" class="form-control" name="jumlah_gaji" id="jumlah_gaji"
+                                        required>
                                 </div>
                             </div>
                         </div>
                         <div class="row mt-3">
                             <div class="col mb-0">
-                                <label for="nameBasic" class="form-label">Tambahan Bonus</label>
-                                <input type="number" class="form-control" name="bonus">
+                                <label for="bonus" class="form-label">Tambahan Bonus</label>
+                                <input type="number" class="form-control" name="bonus" id="bonus"
+                                    value="0">
                             </div>
                             <div class="col mb-0">
-                                <label class="col col-form-label" for="basic-default-name">Jumlah Potongan</label>
+                                <label for="potongan" class="col col-form-label">Jumlah Potongan</label>
                                 <div class="col">
-                                    <input type="number" class="form-control" name="potongan">
+                                    <input type="number" class="form-control" name="potongan" id="potongan"
+                                        value="0" readonly>
                                 </div>
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col mb-0">
+                                <label for="gaji_bersih" class="form-label">Gaji Bersih</label>
+                                <input type="number" class="form-control" name="gaji_bersih" id="gaji_bersih" readonly>
                             </div>
                         </div>
                     </div>
@@ -298,6 +308,57 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
+
+                <script>
+                    document.getElementById('pegawai').addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        const jabatan = selectedOption.getAttribute('data-jabatan');
+                        const telat = selectedOption.getAttribute('data-telat');
+                        const gajiPokok = parseInt(selectedOption.getAttribute('data-gaji')) || 0;
+
+                        // Set Jabatan
+                        document.getElementById('jabatan').value = jabatan;
+
+                        // Set Potongan berdasarkan status telat
+                        let potongan = 0;
+                        if (telat.includes('Telat')) {
+                            // Ekstrak waktu keterlambatan (misalnya, "Telat 30 menit" atau "Telat 2 jam 15 menit")
+                            const match = telat.match(/(\d+)\s*(jam|menit)/); // Menyesuaikan format jam/menit
+                            if (match) {
+                                let minutesLate = 0;
+                                if (match[2] === 'jam') {
+                                    minutesLate = parseInt(match[1]) * 60; // Konversi jam ke menit
+                                } else if (match[2] === 'menit') {
+                                    minutesLate = parseInt(match[1]);
+                                }
+                                // Hitung potongan berdasarkan menit keterlambatan
+                                potongan = minutesLate * 100000;
+                            }
+                        }
+                        document.getElementById('potongan').value = potongan;
+
+                        // Menghitung gaji bersih
+                        const bonus = parseInt(document.getElementById('bonus').value) || 0;
+                        const totalGaji = gajiPokok + bonus - potongan;
+                        document.getElementById('gaji_bersih').value = totalGaji;
+                    });
+
+                    // Update gaji bersih jika jumlah gaji atau bonus diubah
+                    document.getElementById('jumlah_gaji').addEventListener('input', updateGajiBersih);
+                    document.getElementById('bonus').addEventListener('input', updateGajiBersih);
+
+                    function updateGajiBersih() {
+                        const jumlahGaji = parseInt(document.getElementById('jumlah_gaji').value) || 0;
+                        const bonus = parseInt(document.getElementById('bonus').value) || 0;
+                        const potongan = parseInt(document.getElementById('potongan').value) || 0;
+
+                        const gajiBersih = jumlahGaji + bonus - potongan;
+                        document.getElementById('gaji_bersih').value = gajiBersih;
+                    }
+                </script>
+
+
+
             </div>
         </div>
     </div>
