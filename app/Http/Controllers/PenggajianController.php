@@ -83,6 +83,7 @@ class PenggajianController extends Controller
 
     public function store(Request $request)
     {
+        // dd(request()->all());
         date_default_timezone_set('Asia/Jakarta');
 
         $request->validate([
@@ -95,17 +96,17 @@ class PenggajianController extends Controller
             return redirect()->route('penggajian.index')->with('error', 'User tidak ditemukan!');
         }
 
-        //jang nyokot absensi
         $absensi = Absensi::where('id_user', $pegawai->id)
             ->whereDate('tanggal_absen', Carbon::today('Asia/Jakarta'))
             ->first();
 
         if ($absensi && $absensi->status == 'Telat') {
-            $latenessTime  = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta');
-            $currentTime   = Carbon::parse($absensi->jam_masuk);
-            $diffInMinutes = $latenessTime->diffInMinutes($currentTime);
+            $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta');
+            $currentTime  = Carbon::parse($absensi->jam_masuk);
 
-            $potonganPerMenit = 100000;
+            $diffInMinutes = floor($latenessTime->diffInSeconds($currentTime) / 60);
+
+            $potonganPerMenit = 10000;
             $potongan         = $diffInMinutes * $potonganPerMenit;
         } else {
             $potongan = 0;
@@ -121,6 +122,10 @@ class PenggajianController extends Controller
             'bonus'        => $request->bonus ?? 0,
             'potongan'     => $potongan,
             'gaji_bersih'  => $gajiBersih,
+        ]);
+
+        $pegawai->update([
+            'gaji' => $gajiBersih,
         ]);
 
         return redirect()->route('penggajian.index')->with('success', 'Data penggajian berhasil disimpan!');

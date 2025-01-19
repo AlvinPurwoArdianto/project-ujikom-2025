@@ -139,7 +139,6 @@
                                                         <i class="bi bi-pencil-square" data-bs-toggle="tooltip"
                                                             data-bs-offset="0,4" data-bs-placement="left"
                                                             data-bs-html="true" title="Edit Jabatan"></i>
-
                                                     </a>
 
                                                     <a href="{{ route('jabatan.destroy', $data->id) }}"
@@ -148,7 +147,6 @@
                                                         <i class="bi bi-trash-fill" data-bs-toggle="tooltip"
                                                             data-bs-offset="0,4" data-bs-placement="right"
                                                             data-bs-html="true" title="Delete Jabatan"></i>
-
                                                     </a>
                                                 </form>
                                             </td>

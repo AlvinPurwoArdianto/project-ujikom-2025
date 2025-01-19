@@ -118,9 +118,9 @@
                                 <td>{{ $loop->index + 1 }}</td>
                                 <td>{{ $data->pegawai->nama_pegawai }}</td>
                                 <td>{{ \Carbon\Carbon::parse($data->tanggal_gaji)->translatedFormat('d F Y') }}</td>
-                                <td>{{ number_format($data->jumlah_gaji, 0, ',', '.') }}</td> <!-- Format gaji -->
-                                <td>{{ number_format($data->bonus, 0, ',', '.') }}</td> <!-- Format bonus -->
-                                <td>{{ number_format($data->potongan, 0, ',', '.') }}</td> <!-- Format potongan -->
+                                <td>{{ number_format($data->jumlah_gaji, 0, ',', '.') }}</td>
+                                <td>{{ number_format($data->bonus, 0, ',', '.') }}</td>
+                                <td>{{ number_format($data->potongan, 0, ',', '.') }}</td>
                                 <td>{{ number_format($data->jumlah_gaji + $data->bonus - $data->potongan, 0, ',', '.') }}
                                 </td> <!-- Gaji Bersih -->
                                 <td>
@@ -321,18 +321,18 @@
 
                         // Set Potongan berdasarkan status telat
                         let potongan = 0;
-                        if (telat.includes('Telat')) {
+                        if (telat && telat.includes('Telat')) {
                             // Ekstrak waktu keterlambatan (misalnya, "Telat 30 menit" atau "Telat 2 jam 15 menit")
-                            const match = telat.match(/(\d+)\s*(jam|menit)/); // Menyesuaikan format jam/menit
+                            const match = telat.match(/(\d+)\s*(jam|menit)/i); // Menyesuaikan format jam/menit
                             if (match) {
                                 let minutesLate = 0;
-                                if (match[2] === 'jam') {
+                                if (match[2].toLowerCase() === 'jam') {
                                     minutesLate = parseInt(match[1]) * 60; // Konversi jam ke menit
-                                } else if (match[2] === 'menit') {
+                                } else if (match[2].toLowerCase() === 'menit') {
                                     minutesLate = parseInt(match[1]);
                                 }
                                 // Hitung potongan berdasarkan menit keterlambatan
-                                potongan = minutesLate * 100000;
+                                potongan = Math.round(minutesLate * 10000); // Menggunakan pembulatan
                             }
                         }
                         document.getElementById('potongan').value = potongan;
@@ -340,7 +340,7 @@
                         // Menghitung gaji bersih
                         const bonus = parseInt(document.getElementById('bonus').value) || 0;
                         const totalGaji = gajiPokok + bonus - potongan;
-                        document.getElementById('gaji_bersih').value = totalGaji;
+                        document.getElementById('gaji_bersih').value = Math.max(0, totalGaji); // Pastikan tidak negatif
                     });
 
                     // Update gaji bersih jika jumlah gaji atau bonus diubah
@@ -353,12 +353,9 @@
                         const potongan = parseInt(document.getElementById('potongan').value) || 0;
 
                         const gajiBersih = jumlahGaji + bonus - potongan;
-                        document.getElementById('gaji_bersih').value = gajiBersih;
+                        document.getElementById('gaji_bersih').value = Math.max(0, gajiBersih); // Pastikan tidak negatif
                     }
                 </script>
-
-
-
             </div>
         </div>
     </div>
