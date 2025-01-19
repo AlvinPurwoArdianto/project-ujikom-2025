@@ -124,6 +124,11 @@
                         <div data-i18n="Basic">Laporan Cuti</div>
                     </a>
                 </li>
+                <li class="menu-item"> {{-- {{ request()->routeIs('laporan.penggajian') ? 'active' : '' }} --}}
+                    <a href="#" class="menu-link">
+                        <div data-i18n="Basic">Laporan Penggajian</div>
+                    </a>
+                </li>
             </ul>
         </li>
 
