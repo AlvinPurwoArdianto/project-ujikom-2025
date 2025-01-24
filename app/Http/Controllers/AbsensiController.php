@@ -12,6 +12,10 @@ class AbsensiController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $absensi        = Absensi::where('id_user', Auth::id())->get();

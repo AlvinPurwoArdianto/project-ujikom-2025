@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Berkas;
@@ -12,10 +11,14 @@ class BerkasController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $pegawai = User::all();
-        $berkas = Berkas::all();
+        $berkas  = Berkas::all();
         confirmDelete('Hapus!', 'Apakah anda yakin?');
         return view('admin.berkas.index', compact('berkas', 'pegawai'));
     }
@@ -35,37 +38,37 @@ class BerkasController extends Controller
     {
         $request->validate([
             'id_user' => 'required',
-            'cv' => 'nullable',
-            'kk' => 'nullable',
-            'akte' => 'nullable',
-            'ktp' => 'nullable',
+            'cv'      => 'nullable',
+            'kk'      => 'nullable',
+            'akte'    => 'nullable',
+            'ktp'     => 'nullable',
         ]);
 
-        $berkas = new Berkas();
+        $berkas          = new Berkas();
         $berkas->id_user = $request->id_user;
 
         // Proses upload file CV
         if ($request->hasFile('cv')) {
-            $file = $request->file('cv');
-            $filePath = $file->store('cv', 'public');
+            $file            = $request->file('cv');
+            $filePath        = $file->store('cv', 'public');
             $berkas->file_cv = $filePath;
         }
         // Proses upload file KK
         if ($request->hasFile('kk')) {
-            $file = $request->file('kk');
-            $filePath = $file->store('kk', 'public');
+            $file            = $request->file('kk');
+            $filePath        = $file->store('kk', 'public');
             $berkas->file_kk = $filePath;
         }
         // Proses upload file KTP
         if ($request->hasFile('ktp')) {
-            $file = $request->file('ktp');
-            $filePath = $file->store('ktp', 'public');
+            $file             = $request->file('ktp');
+            $filePath         = $file->store('ktp', 'public');
             $berkas->file_ktp = $filePath;
         }
         // Proses upload file AKTE
         if ($request->hasFile('akte')) {
-            $file = $request->file('akte');
-            $filePath = $file->store('akte', 'public');
+            $file              = $request->file('akte');
+            $filePath          = $file->store('akte', 'public');
             $berkas->file_akte = $filePath;
         }
 

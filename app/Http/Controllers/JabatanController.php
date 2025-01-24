@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
@@ -10,6 +9,10 @@ class JabatanController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $jabatan = Jabatan::latest()->get();
@@ -31,24 +34,24 @@ class JabatanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_jabatan' => 'required|unique:jabatans',
+            'nama_jabatan'        => 'required|unique:jabatans',
             'additional_fields.*' => 'nullable|string|unique:jabatans,nama_jabatan',
         ], [
-            'nama_jabatan.unique' => 'Nama jabatan sudah ada!',
+            'nama_jabatan.unique'        => 'Nama jabatan sudah ada!',
             'additional_fields.*.unique' => 'Nama jabatan tambahan sudah ada!',
         ]
         );
 
-        $jabatan = new Jabatan();
+        $jabatan               = new Jabatan();
         $jabatan->nama_jabatan = $request->nama_jabatan;
         $jabatan->save();
 
         // Simpan jabatan tambahan (jika ada)
         if ($request->has('additional_fields')) {
             foreach ($request->additional_fields as $additionalField) {
-                if (!empty($additionalField)) {
+                if (! empty($additionalField)) {
                     // Buat instance baru untuk tiap jabatan tambahan
-                    $newJabatan = new Jabatan();
+                    $newJabatan               = new Jabatan();
                     $newJabatan->nama_jabatan = $additionalField;
                     $newJabatan->save();
                 }
@@ -86,7 +89,7 @@ class JabatanController extends Controller
         ]
         );
 
-        $jabatan = Jabatan::find($id);
+        $jabatan               = Jabatan::find($id);
         $jabatan->nama_jabatan = $request->nama_jabatan;
         $jabatan->save();
         return redirect()->route('jabatan.index')->with('warning', 'Jabatan berhasil diubah!');

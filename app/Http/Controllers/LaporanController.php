@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Exports\AbsensiExport;
@@ -17,14 +16,18 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class LaporanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function pegawai(Request $request)
     {
-        $jabatan = Jabatan::all();
-        $tanggalAwal = $request->input('tanggal_awal');
+        $jabatan      = Jabatan::all();
+        $tanggalAwal  = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
-        $jabatanId = $request->input('jabatan');
+        $jabatanId    = $request->input('jabatan');
 
-        if (!$tanggalAwal || !$tanggalAkhir) {
+        if (! $tanggalAwal || ! $tanggalAkhir) {
             $pegawai = User::where('is_admin', 0)
                 ->when($jabatanId, function ($query) use ($jabatanId) {
                     return $query->where('id_jabatan', $jabatanId);
@@ -72,10 +75,10 @@ class LaporanController extends Controller
             // Pastikan model Absensi dapat di-query dengan benar
             $absensiQuery = Absensi::query()->with('user');
 
-            $tanggalAwal = $request->input('tanggal_awal');
+            $tanggalAwal  = $request->input('tanggal_awal');
             $tanggalAkhir = $request->input('tanggal_akhir');
-            $pegawaiId = $request->input('pegawai_id');
-            $status = $request->input('status');
+            $pegawaiId    = $request->input('pegawai_id');
+            $status       = $request->input('status');
 
             if ($tanggalAwal && $tanggalAkhir) {
                 $absensiQuery->whereBetween('tanggal_absen', [$tanggalAwal, $tanggalAkhir]);
@@ -114,11 +117,11 @@ class LaporanController extends Controller
     //LAPORAN BUAT CUTI DAN FILTER
     public function cuti(Request $request)
     {
-        $pegawai = User::where('is_admin', 0)->get();
-        $tanggalAwal = $request->input('tanggal_awal');
+        $pegawai      = User::where('is_admin', 0)->get();
+        $tanggalAwal  = $request->input('tanggal_awal');
         $tanggalAkhir = $request->input('tanggal_akhir');
-        $pegawaiId = $request->input('pegawai');
-        $statusCuti = $request->input('status_cuti');
+        $pegawaiId    = $request->input('pegawai');
+        $statusCuti   = $request->input('status_cuti');
 
         $cutiQuery = Cutis::with(['pegawai.jabatan']);
 
@@ -137,8 +140,8 @@ class LaporanController extends Controller
         $cuti = $cutiQuery->get();
 
         foreach ($cuti as $item) {
-            $tanggalMulai = \Carbon\Carbon::parse($item->tanggal_mulai);
-            $tanggalAkhir = \Carbon\Carbon::parse($item->tanggal_selesai);
+            $tanggalMulai          = \Carbon\Carbon::parse($item->tanggal_mulai);
+            $tanggalAkhir          = \Carbon\Carbon::parse($item->tanggal_selesai);
             $item->total_hari_cuti = $tanggalMulai->diffInDays($tanggalAkhir) + 1;
         }
 

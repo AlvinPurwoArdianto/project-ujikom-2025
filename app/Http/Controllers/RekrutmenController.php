@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Rekrutmen;
@@ -11,6 +10,10 @@ class RekrutmenController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $rekrutmen = Rekrutmen::latest()->get();
@@ -32,18 +35,18 @@ class RekrutmenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama'            => 'required',
             'tanggal_lamaran' => 'required',
         ]);
 
-        $rekrutmen = new Rekrutmen();
-        $rekrutmen->nama = $request->nama;
+        $rekrutmen                  = new Rekrutmen();
+        $rekrutmen->nama            = $request->nama;
         $rekrutmen->tanggal_lamaran = $request->tanggal_lamaran;
 
         // Proses upload file CV
         if ($request->hasFile('cv')) {
-            $file = $request->file('cv');
-            $filePath = $file->store('cv', 'public'); // Menggunakan disk public
+            $file          = $request->file('cv');
+            $filePath      = $file->store('cv', 'public'); // Menggunakan disk public
             $rekrutmen->cv = $filePath;
         }
 
@@ -74,7 +77,7 @@ class RekrutmenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rekrutmen = Rekrutmen::find($id);
+        $rekrutmen                   = Rekrutmen::find($id);
         $rekrutmen->status_rekrutmen = $request->status_rekrutmen;
         $rekrutmen->save();
 

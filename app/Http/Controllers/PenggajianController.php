@@ -9,6 +9,10 @@ use Illuminate\Support\Carbon;
 
 class PenggajianController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $penggajian = Penggajian::latest()->get();
