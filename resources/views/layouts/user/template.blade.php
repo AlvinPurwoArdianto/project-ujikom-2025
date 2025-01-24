@@ -58,7 +58,7 @@
         {{-- Footer --}}
         @include('include.user.footer')
         {{-- / Footer --}}
-        </div>
+        {{-- </div> --}}
     </main>
 
     <!--   Core JS Files   -->

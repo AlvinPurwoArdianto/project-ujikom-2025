@@ -1,11 +1,13 @@
 <?php
-
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+
+// Pastikan model User diimpor
 
 class LoginController extends Controller
 {
@@ -58,8 +60,35 @@ class LoginController extends Controller
     protected function credentials(Request $request)
     {
         return [
-            'email' => $request->email,
+            'email'    => $request->email,
             'password' => $request->password,
         ];
+    }
+
+    /**
+     * Handle login attempt with email validation.
+     */
+    public function login(Request $request)
+    {
+        // Validasi input
+        $request->validate([
+            'email'    => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Periksa apakah email terdaftar
+        $user = User::where('email', $request->email)->first();
+        if (! $user) {
+            return redirect()->back()->with('error', 'Akun dengan email ini tidak terdaftar.');
+        }
+
+        // Lanjutkan proses login
+        if (Auth::attempt($this->credentials($request))) {
+            $request->session()->regenerate();
+            return $this->authenticated($request, Auth::user()) ?: redirect()->intended($this->redirectTo());
+        }
+
+        // Jika kredensial salah
+        return redirect()->back()->with('error', 'Email atau password salah.');
     }
 }
