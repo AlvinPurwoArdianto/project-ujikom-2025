@@ -5,7 +5,7 @@
             <script>
                 document.write(new Date().getFullYear());
             </script>
-            made with by PKL Assalaam Bandung
+            made with by Alvin Purwo Ardianto
         </div>
     </div>
 </footer>
