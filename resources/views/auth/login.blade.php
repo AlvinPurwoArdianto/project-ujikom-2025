@@ -7,6 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Aplikasi HRD</title>
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="icon" type="image/x-icon"
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIoMmTAmRH0abn7f5jb2sQvX8SOLsN2cCZ2A&s"
+        class="rounded-circle" />
 
     <style>
         /* Google Fonts - Poppins */
@@ -54,7 +57,7 @@
         }
 
         header {
-            font-size: 28px;
+            font-size: 40px;
             font-weight: 600;
             color: #232836;
             text-align: center;
@@ -139,7 +142,7 @@
             position: relative;
             height: 1px;
             width: 100%;
-            margin: 36px 0;
+            margin: 20px 0;
             background-color: #d4d4d4;
         }
 
@@ -189,6 +192,14 @@
             }
 
         }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            /* opsional, sesuaikan untuk memberi jarak dari header */
+        }
     </style>
     <!-- SweetAlert CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.6.15/dist/sweetalert2.min.css">
@@ -211,18 +222,23 @@
     @endif
     <section class="container forms">
         <div class="form login">
+            <div class="image-container">
+                <img src="{{ asset('assets/img/logos/image hr (1).jpg') }}" alt="logo" height="50"
+                    width="50">
+            </div>
+            <header>Login</header>
+            <hr class="line">
             <div class="form-content">
                 <form method="POST" action="{{ route('login') }}">
                     @csrf
-                    <header>Login</header>
                     <div class="field input-field">
                         <input id="email" type="email" class="form-control" name="email" autocomplete="email"
-                            autofocus placeholder="Email">
+                            autofocus placeholder="Masukan Email Anda!">
                     </div>
 
                     <div class="field input-field">
                         <input id="password" type="password" class="form-control" name="password"
-                            autocomplete="current-password" placeholder="Password">
+                            autocomplete="current-password" placeholder="Masukan Password Anda!">
                         <i class='bx bx-hide eye-icon' id="togglePassword"></i>
                     </div>
 
