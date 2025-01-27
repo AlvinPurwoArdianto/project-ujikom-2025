@@ -70,25 +70,21 @@ class LoginController extends Controller
      */
     public function login(Request $request)
     {
-        // Validasi input
         $request->validate([
             'email'    => 'required|email',
             'password' => 'required',
         ]);
 
-        // Periksa apakah email terdaftar
         $user = User::where('email', $request->email)->first();
         if (! $user) {
             return redirect()->back()->with('error', 'Akun dengan email ini tidak terdaftar.');
         }
 
-        // Lanjutkan proses login
         if (Auth::attempt($this->credentials($request))) {
             $request->session()->regenerate();
             return $this->authenticated($request, Auth::user()) ?: redirect()->intended($this->redirectTo());
         }
 
-        // Jika kredensial salah
         return redirect()->back()->with('error', 'Email atau password salah.');
     }
 }

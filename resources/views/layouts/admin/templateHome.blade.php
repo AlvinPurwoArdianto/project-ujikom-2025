@@ -97,7 +97,8 @@
                                                     <b>{{ Auth::user()->nama_pegawai }}</b> 🎉
                                                 </h5>
                                                 <p class="mb-4">
-                                                    Ini Adalah Halaman Utama <span class="fw-bold">Aplikasi HRD.</span>
+                                                    Ini Adalah Halaman Dashboard <span class="fw-bold">Aplikasi
+                                                        HRD.</span>
                                                     <br>
                                                     Silahkan Cek Menu disidebar Untuk Melihat Informasi Yang Tersedia.
                                                 </p>
@@ -133,40 +134,12 @@
                                                     1
                                                 </h3>
                                             </div>
-                                            <div class="col"><a href="http://127.0.0.1:8000/admin/pegawai"
+                                            <div class="col"><a href="{{ route('pegawai.index') }}"
                                                     class="btn btn-primary btn-sm">Lihat</a></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            {{-- <div class="col-lg-4 col-md-2 order-1">
-                                <div class="row">
-                                    <div class="col-lg-6 col-md-12 col-6 mb-4">
-                                        <div class="card">
-                                            <div class="card-body">
-                                                <div
-                                                    class="card-title d-flex align-items-start justify-content-between">
-                                                    <div class="avatar flex-shrink-0">
-                                                        <small class="text-warning fw-semibold">
-                                                            <i class='bx bxs-user-circle' style="font-size: 50px"></i>
-                                                        </small>
-                                                    </div>
-                                                </div>
-                                                <span>Pegawai</span>
-                                                <div class="row pt-2">
-                                                    <div class="col">
-                                                        <h3 class="card-title text-nowrap">
-                                                            {{ $totalPegawai }}
-                                                        </h3>
-                                                    </div>
-                                                    <div class="col"><a href="{{ route('pegawai.index') }}"
-                                                            class="btn btn-primary btn-sm">Lihat</a></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
                         </div>
 
                         {{-- DIBAWAH INI ADALAH UNTUK BAHAN SELANJUTNYA --}}
