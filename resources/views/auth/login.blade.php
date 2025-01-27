@@ -8,11 +8,9 @@
     <title>Aplikasi HRD</title>
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
     <link rel="icon" type="image/x-icon"
-        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIoMmTAmRH0abn7f5jb2sQvX8SOLsN2cCZ2A&s"
-        class="rounded-circle" />
+        href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIoMmTAmRH0abn7f5jb2sQvX8SOLsN2cCZ2A&s" />
 
     <style>
-        /* Google Fonts - Poppins */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
 
         * {
@@ -29,70 +27,47 @@
             align-items: center;
             justify-content: center;
             background-color: #4070f4;
-            column-gap: 30px;
+            padding: 20px;
         }
 
         .form {
-            position: absolute;
-            max-width: 430px;
+            max-width: 400px;
             width: 100%;
             padding: 30px;
-            border-radius: 6px;
+            border-radius: 8px;
             background: #FFF;
-        }
-
-        .form.signup {
-            opacity: 0;
-            pointer-events: none;
-        }
-
-        .forms.show-signup .form.signup {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .forms.show-signup .form.login {
-            opacity: 0;
-            pointer-events: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         header {
-            font-size: 40px;
+            font-size: 32px;
             font-weight: 600;
             color: #232836;
             text-align: center;
-        }
-
-        form {
-            margin-top: 30px;
+            margin-bottom: 20px;
         }
 
         .form .field {
+            margin-top: 15px;
             position: relative;
-            height: 50px;
-            width: 100%;
-            margin-top: 20px;
-            border-radius: 6px;
         }
 
         .field input,
         .field button {
-            height: 100%;
             width: 100%;
-            border: none;
-            font-size: 16px;
-            font-weight: 400;
+            padding: 12px 15px;
             border-radius: 6px;
+            border: 1px solid #CACACA;
+            font-size: 16px;
         }
 
         .field input {
             outline: none;
-            padding: 0 15px;
-            border: 1px solid#CACACA;
+            transition: border-color 0.3s ease;
         }
 
         .field input:focus {
-            border-bottom-width: 2px;
+            border-color: #0171d3;
         }
 
         .eye-icon {
@@ -103,18 +78,18 @@
             font-size: 18px;
             color: #8b8b8b;
             cursor: pointer;
-            padding: 5px;
         }
 
         .field button {
-            color: #fff;
             background-color: #0171d3;
-            transition: all 0.3s ease;
+            color: #fff;
+            border: none;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
         .field button:hover {
-            background-color: #016dcb;
+            background-color: #005bb5;
         }
 
         .form-link {
@@ -122,83 +97,52 @@
             margin-top: 10px;
         }
 
-        .form-link span,
         .form-link a {
-            font-size: 14px;
-            font-weight: 400;
-            color: #232836;
-        }
-
-        .form a {
             color: #0171d3;
             text-decoration: none;
         }
 
-        .form-content a:hover {
+        .form-link a:hover {
             text-decoration: underline;
-        }
-
-        .line {
-            position: relative;
-            height: 1px;
-            width: 100%;
-            margin: 20px 0;
-            background-color: #d4d4d4;
-        }
-
-        .line::before {
-            content: 'Or';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: #FFF;
-            color: #8b8b8b;
-            padding: 0 15px;
-        }
-
-        .media-options a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        img.google-img {
-            position: absolute;
-            top: 50%;
-            left: 15px;
-            transform: translateY(-50%);
-        }
-
-        img.google-img {
-            height: 20px;
-            width: 20px;
-            object-fit: cover;
-        }
-
-        a.google {
-            border: 1px solid #CACACA;
-        }
-
-        a.google span {
-            font-weight: 500;
-            opacity: 0.6;
-            color: #232836;
-        }
-
-        @media screen and (max-width: 400px) {
-            .form {
-                padding: 20px 10px;
-            }
-
         }
 
         .image-container {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 20px;
-            /* opsional, sesuaikan untuk memberi jarak dari header */
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            height: 50px;
+            width: 50px;
+            border-radius: 50%;
+        }
+
+        @media (max-width: 768px) {
+            header {
+                font-size: 28px;
+            }
+
+            .form {
+                padding: 20px;
+            }
+
+            .field input,
+            .field button {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form {
+                padding: 15px;
+            }
+
+            .field input,
+            .field button {
+                font-size: 12px;
+            }
         }
     </style>
     <!-- SweetAlert CSS -->
@@ -220,42 +164,25 @@
             })
         </script>
     @endif
-    <section class="container forms">
-        <div class="form login">
+    <section class="container">
+        <div class="form">
             <div class="image-container">
-                <img src="{{ asset('assets/img/logos/image hr (1).jpg') }}" alt="logo" height="50"
-                    width="50">
+                <img src="{{ asset('assets/img/logos/image hr (1).jpg') }}" alt="logo">
             </div>
             <header>Login</header>
-            <hr class="line">
-            <div class="form-content">
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    <div class="field input-field">
-                        <input id="email" type="email" class="form-control" name="email" autocomplete="email"
-                            autofocus placeholder="Masukan Email Anda!">
-                    </div>
-
-                    <div class="field input-field">
-                        <input id="password" type="password" class="form-control" name="password"
-                            autocomplete="current-password" placeholder="Masukan Password Anda!">
-                        <i class='bx bx-hide eye-icon' id="togglePassword"></i>
-                    </div>
-
-                    <div class="field button-field">
-                        <button type="submit">Login</button>
-                    </div>
-                </form>
-            </div>
-            {{--
-            <div class="line"></div>
-            <div class="media-options">
-                <a href="{{ route('redirect') }}" class="field google">
-                    <img src="{{ asset('admin/assets/img/google.png') }}" alt="" class="google-img">
-                    <span>Login with Google</span>
-                </a>
-            </div> --}}
-
+            <form method="POST" action="{{ route('login') }}">
+                @csrf
+                <div class="field">
+                    <input id="email" type="email" name="email" placeholder="Masukan Email Anda!" required>
+                </div>
+                <div class="field">
+                    <input id="password" type="password" name="password" placeholder="Masukan Password Anda!" required>
+                    <i class='bx bx-hide eye-icon' id="togglePassword"></i>
+                </div>
+                <div class="field">
+                    <button type="submit">Login</button>
+                </div>
+            </form>
         </div>
     </section>
 
@@ -264,17 +191,12 @@
         const password = document.querySelector("#password");
 
         togglePassword.addEventListener("click", function() {
-            // Toggle the type attribute
             const type = password.getAttribute("type") === "password" ? "text" : "password";
             password.setAttribute("type", type);
-
-            // Toggle the eye icon
             this.classList.toggle('bx-hide');
             this.classList.toggle('bx-show');
         });
     </script>
-
-
 </body>
 
 </html>
