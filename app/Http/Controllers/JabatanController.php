@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JabatanController extends Controller
 {
@@ -15,7 +16,8 @@ class JabatanController extends Controller
     }
     public function index()
     {
-        $jabatan = Jabatan::latest()->get();
+        // $jabatan = Jabatan::latest()->get();
+        $jabatan = DB::table('jabatans')->orderBy('created_at', 'desc')->get();
         confirmDelete('Hapus Jabatan!', 'Apakah Anda Yakin?');
         return view('admin.jabatan.index', compact('jabatan'));
     }
