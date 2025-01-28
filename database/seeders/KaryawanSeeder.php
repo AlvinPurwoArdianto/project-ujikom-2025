@@ -14,24 +14,24 @@ class KaryawanSeeder extends Seeder
 
     public function run(): void
     {
-        User::create([
-            'nama_pegawai'   => 'Sample Karyawan 10',
-            'tempat_lahir'   => 'Palembang',
-            'tanggal_lahir'  => '1999-10-10',
-            'jenis_kelamin'  => 'Perempuan',
-            'alamat'         => 'Jl. Contoh 10, Palembang',
-            'email'          => 'sample10@gmail.com',
-            'password'       => Hash::make('1234567890'),
-            'tanggal_masuk'  => Carbon::now(),
-            'gaji'           => 9500000,
-            'status_pegawai' => 1,
-            'is_admin'       => 0,
-            'google_id'      => null,
-            'provinsi'       => 32,
-            'kabupaten'      => 3204,
-            'kecamatan'      => 3204140,
-            'kelurahan'      => 3204140007,
-        ]);
+        // User::create([
+        //     'nama_pegawai'   => 'Sample Karyawan 10',
+        //     'tempat_lahir'   => 'Palembang',
+        //     'tanggal_lahir'  => '1999-10-10',
+        //     'jenis_kelamin'  => 'Perempuan',
+        //     'alamat'         => 'Jl. Contoh 10, Palembang',
+        //     'email'          => 'sample10@gmail.com',
+        //     'password'       => Hash::make('1234567890'),
+        //     'tanggal_masuk'  => Carbon::now(),
+        //     'gaji'           => 9500000,
+        //     'status_pegawai' => 1,
+        //     'is_admin'       => 0,
+        //     'google_id'      => null,
+        //     'provinsi'       => 32,
+        //     'kabupaten'      => 3204,
+        //     'kecamatan'      => 3204140,
+        //     'kelurahan'      => 3204140007,
+        // ]);
 
         for ($i = 1; $i <= 1000; $i++) {
             User::create([

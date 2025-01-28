@@ -137,13 +137,15 @@
                                     Liburan
                                 </label>
                             </div>
-                            <div class="form-check">
-                                <input class="form-check-input" type="radio" name="kategori_cuti" id="cuti_mengajar"
-                                    value="cuti_mengajar" required>
-                                <label class="form-check-label" for="cuti_mengajar">
-                                    Hamil
-                                </label>
-                            </div>
+                            @if (Auth::user()->jenis_kelamin == 'Perempuan')
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="kategori_cuti" id="cuti_mengajar"
+                                        value="cuti_mengajar" required>
+                                    <label class="form-check-label" for="cuti_mengajar">
+                                        Hamil
+                                    </label>
+                                </div>
+                            @endif
                         </div>
 
                         <!-- Alasan Cuti -->
