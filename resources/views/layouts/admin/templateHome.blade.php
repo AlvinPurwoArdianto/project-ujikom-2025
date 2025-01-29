@@ -131,7 +131,7 @@
                                         <div class="row">
                                             <div class="col">
                                                 <h3 class="card-title text-nowrap">
-                                                    {{ $totalPegawai }}
+                                                    {{ $totalPegawai > 100 ? '99+' : $totalPegawai }}
                                                 </h3>
                                             </div>
                                             <div class="col"><a href="{{ route('pegawai.index') }}"
