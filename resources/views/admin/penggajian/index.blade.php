@@ -1,4 +1,7 @@
 @extends('layouts.admin.template')
+@section('css')
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+@endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> penggajian</h4>
@@ -308,55 +311,64 @@
                         <button type="submit" class="btn btn-primary">Save</button>
                     </div>
                 </form>
-
-                <script>
-                    document.getElementById('pegawai').addEventListener('change', function() {
-                        const selectedOption = this.options[this.selectedIndex];
-                        const jabatan = selectedOption.getAttribute('data-jabatan');
-                        const telat = selectedOption.getAttribute('data-telat');
-                        const gajiPokok = parseInt(selectedOption.getAttribute('data-gaji')) || 0;
-
-                        // Set Jabatan
-                        document.getElementById('jabatan').value = jabatan;
-
-                        // Set Potongan berdasarkan status telat
-                        let potongan = 0;
-                        if (telat && telat.includes('Telat')) {
-                            // Ekstrak waktu keterlambatan (misalnya, "Telat 30 menit" atau "Telat 2 jam 15 menit")
-                            const match = telat.match(/(\d+)\s*(jam|menit)/i); // Menyesuaikan format jam/menit
-                            if (match) {
-                                let minutesLate = 0;
-                                if (match[2].toLowerCase() === 'jam') {
-                                    minutesLate = parseInt(match[1]) * 60; // Konversi jam ke menit
-                                } else if (match[2].toLowerCase() === 'menit') {
-                                    minutesLate = parseInt(match[1]);
-                                }
-                                // Hitung potongan berdasarkan menit keterlambatan
-                                potongan = Math.round(minutesLate * 10000); // Menggunakan pembulatan
-                            }
-                        }
-                        document.getElementById('potongan').value = potongan;
-
-                        // Menghitung gaji bersih
-                        const bonus = parseInt(document.getElementById('bonus').value) || 0;
-                        const totalGaji = gajiPokok + bonus - potongan;
-                        document.getElementById('gaji_bersih').value = Math.max(0, totalGaji); // Pastikan tidak negatif
-                    });
-
-                    // Update gaji bersih jika jumlah gaji atau bonus diubah
-                    document.getElementById('jumlah_gaji').addEventListener('input', updateGajiBersih);
-                    document.getElementById('bonus').addEventListener('input', updateGajiBersih);
-
-                    function updateGajiBersih() {
-                        const jumlahGaji = parseInt(document.getElementById('jumlah_gaji').value) || 0;
-                        const bonus = parseInt(document.getElementById('bonus').value) || 0;
-                        const potongan = parseInt(document.getElementById('potongan').value) || 0;
-
-                        const gajiBersih = jumlahGaji + bonus - potongan;
-                        document.getElementById('gaji_bersih').value = Math.max(0, gajiBersih); // Pastikan tidak negatif
-                    }
-                </script>
             </div>
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#pegawai').select2();
+        });
+    </script>
+
+    <script>
+        document.getElementById('pegawai').addEventListener('change', function() {
+            const selectedOption = this.options[this.selectedIndex];
+            const jabatan = selectedOption.getAttribute('data-jabatan');
+            const telat = selectedOption.getAttribute('data-telat');
+            const gajiPokok = parseInt(selectedOption.getAttribute('data-gaji')) || 0;
+
+            // Set Jabatan
+            document.getElementById('jabatan').value = jabatan;
+
+            // Set Potongan berdasarkan status telat
+            let potongan = 0;
+            if (telat && telat.includes('Telat')) {
+                // Ekstrak waktu keterlambatan (misalnya, "Telat 30 menit" atau "Telat 2 jam 15 menit")
+                const match = telat.match(/(\d+)\s*(jam|menit)/i); // Menyesuaikan format jam/menit
+                if (match) {
+                    let minutesLate = 0;
+                    if (match[2].toLowerCase() === 'jam') {
+                        minutesLate = parseInt(match[1]) * 60; // Konversi jam ke menit
+                    } else if (match[2].toLowerCase() === 'menit') {
+                        minutesLate = parseInt(match[1]);
+                    }
+                    // Hitung potongan berdasarkan menit keterlambatan
+                    potongan = Math.round(minutesLate * 10000); // Menggunakan pembulatan
+                }
+            }
+            document.getElementById('potongan').value = potongan;
+
+            // Menghitung gaji bersih
+            const bonus = parseInt(document.getElementById('bonus').value) || 0;
+            const totalGaji = gajiPokok + bonus - potongan;
+            document.getElementById('gaji_bersih').value = Math.max(0, totalGaji); // Pastikan tidak negatif
+        });
+
+        // Update gaji bersih jika jumlah gaji atau bonus diubah
+        document.getElementById('jumlah_gaji').addEventListener('input', updateGajiBersih);
+        document.getElementById('bonus').addEventListener('input', updateGajiBersih);
+
+        function updateGajiBersih() {
+            const jumlahGaji = parseInt(document.getElementById('jumlah_gaji').value) || 0;
+            const bonus = parseInt(document.getElementById('bonus').value) || 0;
+            const potongan = parseInt(document.getElementById('potongan').value) || 0;
+
+            const gajiBersih = jumlahGaji + bonus - potongan;
+            document.getElementById('gaji_bersih').value = Math.max(0, gajiBersih); // Pastikan tidak negatif
+        }
+    </script>
+@endpush
