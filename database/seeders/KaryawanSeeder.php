@@ -2,8 +2,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 
 class KaryawanSeeder extends Seeder
@@ -20,13 +20,12 @@ class KaryawanSeeder extends Seeder
         //     'tanggal_lahir'  => '1999-10-10',
         //     'jenis_kelamin'  => 'Perempuan',
         //     'alamat'         => 'Jl. Contoh 10, Palembang',
-        //     'email'          => 'sample10@gmail.com',
+        //     'email'          => 'sample1@gmail.com',
         //     'password'       => Hash::make('1234567890'),
         //     'tanggal_masuk'  => Carbon::now(),
         //     'gaji'           => 9500000,
         //     'status_pegawai' => 1,
         //     'is_admin'       => 0,
-        //     'google_id'      => null,
         //     'provinsi'       => 32,
         //     'kabupaten'      => 3204,
         //     'kecamatan'      => 3204140,
@@ -46,7 +45,6 @@ class KaryawanSeeder extends Seeder
                 'gaji'           => 5000000 + ($i * 50000),
                 'status_pegawai' => 1,
                 'is_admin'       => 0,
-                'google_id'      => null,
                 'provinsi'       => 32,
                 'kabupaten'      => 3204,
                 'kecamatan'      => 3204140,

@@ -1,9 +1,4 @@
 @extends('layouts.admin.template')
-
-@section('css')
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
-@endsection
-
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
         <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> penggajian</h4>
@@ -253,14 +248,14 @@
                                 <label for="nameBasic" class="form-label">Nama Pegawai</label>
                                 <select name="id_user" class="form-control" id="pegawai" required>
                                     <option selected disabled>-- Nama pegawai --</option>
-                                    @foreach ($pegawai as $data)
-                                        @if ($data->is_admin == 0)
-                                            <option value="{{ $data->id }}"
-                                                {{ session('id_user') && in_array($data->id, session('id_user')) ? 'disabled' : '' }}
-                                                data-jabatan="{{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak ada jabatan' }}"
-                                                data-telat="{{ $data->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString()) ? $data->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString())->note : 'Hadir tepat waktu' }}"
-                                                data-gaji="{{ $data->gaji }}">
-                                                {{ $data->nama_pegawai }}
+                                    @foreach ($pegawai as $pegawaiItem)
+                                        @if ($pegawaiItem->is_admin == 0)
+                                            <option value="{{ $pegawaiItem->id }}"
+                                                {{ session('id_user') && in_array($pegawaiItem->id, session('id_user')) ? 'disabled' : '' }}
+                                                data-jabatan="{{ $pegawaiItem->jabatan ? $pegawaiItem->jabatan->nama_jabatan : 'Tidak ada jabatan' }}"
+                                                data-telat="{{ $pegawaiItem->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString()) ? $pegawaiItem->absensi->firstWhere('tanggal_absen', \Carbon\Carbon::today()->toDateString())->note : 'Hadir tepat waktu' }}"
+                                                data-gaji="{{ $pegawaiItem->gaji }}">
+                                                {{ $pegawaiItem->nama_pegawai }}
                                             </option>
                                         @endif
                                     @endforeach
@@ -364,13 +359,4 @@
             </div>
         </div>
     </div>
-
-    @push('scripts')
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $('#pegawai').select2();
-            });
-        </script>
-    @endpush
 @endsection

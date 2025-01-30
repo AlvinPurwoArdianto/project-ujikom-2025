@@ -65,6 +65,7 @@ class PegawaiController extends Controller
     {
         $pegawai = User::where('is_admin', 0)->get();
         $jabatan = Jabatan::all();
+        confirmDelete('Hapus Pegawai!', 'Apakah Anda Yakin?');
         return view('admin.pegawai.index', compact('pegawai', 'jabatan'));
     }
 

@@ -10,7 +10,6 @@ use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PenggajianController;
 use App\Http\Controllers\RekrutmenController;
-use App\Http\Controllers\SocialiteController;
 use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +38,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 
     Route::get('export-database', [BackupDatabaseExport::class, 'export'])->name('export-database');
 });
-
-Route::get('/redirect', [SocialiteController::class, 'redirect'])->name('redirect')->middleware('guest');
-Route::get('/callback', [SocialiteController::class, 'callback'])->name('callback')->middleware('guest');
-Route::get('/logout', [SocialiteController::class, 'logout'])->name('socialite.logout')->middleware('auth');
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
     Route::get('dashboard', function () {

@@ -17,8 +17,9 @@ class PenggajianController extends Controller
     {
         $penggajian = Penggajian::latest()->get();
         $pegawai    = User::all();
+        $absensi    = Absensi::all();
         confirmDelete('Hapus Penggajian!', 'Apakah Anda Yakin?');
-        return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
+        return view('admin.penggajian.index', compact('penggajian', 'pegawai', 'absensi'));
     }
 
     public function index1()
