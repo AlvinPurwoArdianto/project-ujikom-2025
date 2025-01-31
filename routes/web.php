@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {

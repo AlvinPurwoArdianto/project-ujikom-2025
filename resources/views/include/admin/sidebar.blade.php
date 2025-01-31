@@ -65,12 +65,16 @@
                 <i class="menu-icon bx bx-user-check"></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 59px">
                     Aprove Cuti
-                    <span id="notification-count-container">
+                    {{-- <span id="notification-count-container">
                         @if (isset($cutiNotifications) && $cutiNotifications->count() > 0)
                             <span id="notification-count" class="badge bg-danger">
                                 {{ $cutiNotifications->count() }}
                             </span>
                         @endif
+                    </span> --}}
+
+                    <span id="notification-count" class="badge bg-danger">
+                        {{ isset($cutiNotifications) && $cutiNotifications->count() > 0 ? $cutiNotifications->count() : 0 }}
                     </span>
                 </div>
             </a>
@@ -81,11 +85,14 @@
                 <i class="menu-icon bx bx-plus-medical"></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 75px">
                     Izin Sakit
-                    @if (isset($izinSakitCount) && $izinSakitCount > 0)
+                    {{-- @if (isset($izinSakitCount) && $izinSakitCount > 0)
                         <span id="notification-count-izin" class="badge bg-danger">
                             {{ $izinSakitCount }}
                         </span>
-                    @endif
+                    @endif --}}
+                    <span id="notification-count-izin" class="badge bg-danger">
+                        {{ isset($izinSakitCount) && $izinSakitCount > 0 ? $izinSakitCount : 0 }}
+                    </span>
                 </div>
             </a>
         </li>
@@ -132,7 +139,7 @@
             </ul>
         </li>
 
-        <li class="menu-header small text-uppercase">
+        {{-- <li class="menu-header small text-uppercase">
             <span class="menu-header-text">Data Backup</span>
         </li>
         <li class="menu-item">
@@ -142,7 +149,7 @@
                     Backup Database
                 </div>
             </a>
-        </li>
+        </li> --}}
     </ul>
     <!-- Add AJAX Script Here -->
     <script>
@@ -156,7 +163,7 @@
                     if (response.count > 0) {
                         $('#notification-count').text(response.count).show();
                     } else {
-                        $('#notification-count').hide();
+                        $('#notification-count').text(0).show();
                     }
                 },
                 error: function() {

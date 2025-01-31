@@ -75,7 +75,7 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $user = User::where('email', $request->email)->first();
+        $user = User::whereRaw('BINARY email = ?', [$request->email])->first();
         if (! $user) {
             return redirect()->back()->with('error', 'Akun dengan email ini tidak terdaftar.');
         }
@@ -87,4 +87,14 @@ class LoginController extends Controller
 
         return redirect()->back()->with('error', 'Email atau password salah.');
     }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();                         // Logout user
+        $request->session()->invalidate();      // Invalidate session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+
+        return redirect('/'); // Redirect ke halaman login atau halaman lain
+    }
+
 }
