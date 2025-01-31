@@ -93,6 +93,10 @@
                     <span id="notification-count-izin" class="badge bg-danger">
                         {{ isset($izinSakitCount) && $izinSakitCount > 0 ? $izinSakitCount : 0 }}
                     </span>
+
+                    <audio id="notification-sound">
+                        <source src="{{ asset('sounds/notif_lingkaran.mp3') }}" type="audio/mpeg">
+                    </audio>
                 </div>
             </a>
         </li>
@@ -153,18 +157,22 @@
     </ul>
     <!-- Add AJAX Script Here -->
     <script>
-        // Fungsi untuk memeriksa notifikasi baru setiap 5 detik
+        let previousNotificationCount = {{ isset($cutiNotifications) ? $cutiNotifications->count() : 0 }};
+
         function checkNotifications() {
             $.ajax({
-                url: '{{ route('cuti.notifications') }}', // Route untuk mengambil jumlah notifikasi
+                url: '{{ route('cuti.notifications') }}',
                 type: 'GET',
                 success: function(response) {
-                    // Update jumlah notifikasi di menu
-                    if (response.count > 0) {
-                        $('#notification-count').text(response.count).show();
-                    } else {
-                        $('#notification-count').text(0).show();
+                    let newCount = response.count;
+
+                    $('#notification-count').text(newCount).show();
+
+                    if (newCount > previousNotificationCount) {
+                        document.getElementById('notification-sound').play();
                     }
+
+                    previousNotificationCount = newCount;
                 },
                 error: function() {
                     console.log('Gagal memuat notifikasi');
