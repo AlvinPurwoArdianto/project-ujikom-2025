@@ -5,6 +5,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\BackupDatabaseExport;
 use App\Http\Controllers\BerkasController;
 use App\Http\Controllers\CutisController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\JabatanController;
 use App\Http\Controllers\LaporanController;
 use App\Http\Controllers\PegawaiController;
@@ -19,7 +20,7 @@ Route::get('logout', [LoginController::class, 'logout'])->name('logout');
 Auth::routes(['register' => false]);
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], function () {
-    Route::get('dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('dashboard', [HomeController::class, 'index'])->name('home');
     Route::resource('jabatan', JabatanController::class);
     Route::resource('pegawai', PegawaiController::class);
     Route::resource('penggajian', PenggajianController::class);
@@ -31,6 +32,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('cuti/approve/{id}', [CutisController::class, 'approve'])->name('cuti.approve');
     Route::put('cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
     Route::get('izin-sakit', [AbsensiController::class, 'izinSakit'])->name('izin.sakit');
+    Route::post('izin-sakit/update-status', [AbsensiController::class, 'absensiUpdateStatus'])->name('izin.absensi_update_status');
 
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
@@ -41,9 +43,11 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
 });
 
 Route::group(['prefix' => 'user', 'middleware' => ['auth']], function () {
-    Route::get('dashboard', function () {
-        return view('user.dashboard.index');
-    })->name('user.dashboard');
+    // Route::get('dashboard', function () {
+    //     return view('user.dashboard.index');
+    // })->name('user.dashboard');
+
+    Route::get('dashboard', [HomeController::class, 'dashboard'])->name('user.dashboard');
 
     Route::get('profile', function () {
         return view('user.profile.index');

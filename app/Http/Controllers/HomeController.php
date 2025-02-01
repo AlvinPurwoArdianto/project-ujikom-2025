@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,20 +28,31 @@ class HomeController extends Controller
 
         $totalPegawai    = User::where('is_admin', 0)->count();
         $totalPenggajian = User::sum('gaji');
-        // $fasilitas = Fasilitas::count('id');
-        // $artikel = Artikel::count('id');
-        // $pendaftaran = Pendaftaran::count('id');
 
         $absensiHadir  = Absensi::where('status', 'Hadir')->count();
         $absensiPulang = Absensi::where('status', 'Telat')->count();
         $absensiSakit  = Absensi::where('status', 'Sakit')->count();
 
-        // Data absensi dihitung berdasarkan tahun
         $absensiPerTahun = Absensi::selectRaw('YEAR(tanggal_absen) as tahun, COUNT(*) as jumlah')
             ->groupBy('tahun')
             ->orderBy('tahun', 'asc')
             ->pluck('jumlah', 'tahun');
 
         return view('home', compact('pegawai', 'totalPegawai', 'totalPenggajian', 'absensiHadir', 'absensiPulang', 'absensiSakit', 'absensiPerTahun'));
+    }
+
+    public function dashboard()
+    {
+        $id_user = Auth::id();
+        $absensi = Absensi::where('id_user', $id_user)
+            ->select('id_user', 'tanggal_absen', 'status')
+            ->get();
+
+        $izinSakit      = Absensi::where('status', 'sakit')->get();
+        $izinSakitCount = $izinSakit->count();
+
+        $tanggal_masuk = Auth::user()->tanggal_masuk;
+
+        return view('user.dashboard.index', compact('absensi', 'izinSakit', 'izinSakitCount', 'tanggal_masuk'));
     }
 }

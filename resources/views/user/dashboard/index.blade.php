@@ -52,4 +52,102 @@
             </div>
         </div>
     </div>
+
+    <script>
+        const calendar = document.getElementById('calendar');
+        let currentDate = new Date();
+        const today = new Date();
+        const absensi = @json($absensi);
+        const tanggalMasuk = @json($tanggal_masuk);
+
+        function renderCalendar(date) {
+            const month = date.getMonth();
+            const year = date.getFullYear();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            const firstDayIndex = new Date(year, month, 1).getDay();
+
+            let calendarHTML = `<table class="table table-bordered text-center mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Minggu</th>
+                                <th>Senin</th>
+                                <th>Selasa</th>
+                                <th>Rabu</th>
+                                <th>Kamis</th>
+                                <th>Jumat</th>
+                                <th>Sabtu</th>
+                            </tr>
+                        </thead>
+                        <tbody>`;
+
+            let day = 1;
+            for (let i = 0; i < 6; i++) {
+                calendarHTML += '<tr>';
+                for (let j = 0; j < 7; j++) {
+                    if (i === 0 && j < firstDayIndex) {
+                        calendarHTML += '<td></td>';
+                    } else if (day > daysInMonth) {
+                        calendarHTML += '<td></td>';
+                    } else {
+                        const currentDateString =
+                            `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                        const dateToCheck = new Date(currentDateString);
+                        const isToday = dateToCheck.toDateString() === today.toDateString();
+                        const isFutureDate = dateToCheck > today;
+                        const isBeforeTanggalMasuk = tanggalMasuk && currentDateString < tanggalMasuk;
+
+                        let cellClass = '';
+                        let statusText = '';
+
+                        // Logic for determining cell color and status
+                        if (isToday) {
+                            cellClass = 'bg-primary text-white';
+                            statusText = 'Hari Ini';
+                        } else if (isFutureDate || isBeforeTanggalMasuk) {
+                            cellClass = 'bg-white';
+                            statusText = '';
+                        } else {
+                            const absensiData = absensi.find(item => item.tanggal_absen === currentDateString);
+
+                            if (absensiData) {
+                                if (absensiData.status === 'Hadir') {
+                                    cellClass = 'bg-success text-white';
+                                    statusText = 'Hadir';
+                                } else if (absensiData.status === 'Sakit') {
+                                    cellClass = 'bg-warning text-white';
+                                    statusText = 'Sakit';
+                                }
+                            } else {
+                                cellClass = 'bg-secondary text-white';
+                                statusText = 'Alfa';
+                            }
+                        }
+
+                        calendarHTML += `
+                    <td class="${cellClass}">
+                        ${day}<br>
+                        <small>${statusText}</small>
+                    </td>`;
+                        day++;
+                    }
+                }
+                calendarHTML += '</tr>';
+            }
+            calendarHTML += '</tbody></table>';
+
+            calendar.innerHTML = calendarHTML;
+        }
+
+        renderCalendar(currentDate);
+
+        document.getElementById('prevMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar(currentDate);
+        });
+
+        document.getElementById('nextMonth').addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar(currentDate);
+        });
+    </script>
 @endsection

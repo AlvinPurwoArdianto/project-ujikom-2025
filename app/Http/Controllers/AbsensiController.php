@@ -211,4 +211,19 @@ class AbsensiController extends Controller
     {
         //
     }
+
+    public function absensiUpdateStatus(Request $request)
+    {
+        $absensi_id      = $request->input('absensi_id');
+        $absensi         = Absensi::findOrFail($absensi_id);
+        $absensi->viewed = true;
+        $absensi->save();
+
+        $newCount = Absensi::where('status', 'Sakit')->where('viewed', false)->count();
+
+        return response()->json([
+            'message'   => 'Status updated',
+            'new_count' => $newCount,
+        ]);
+    }
 }

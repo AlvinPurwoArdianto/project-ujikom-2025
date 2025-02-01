@@ -34,7 +34,7 @@
                                         <!-- Gambar diperbesar -->
                                         @if ($data->photo)
                                             <!-- Tombol Lihat Selengkapnya di sebelah kanan -->
-                                            <button type="button"
+                                            <button type="button" onclick="updateStatus({{ $data->id }})"
                                                 class="btn btn-outline-primary btn-sm ms-auto align-items-center"
                                                 data-bs-toggle="modal" data-bs-target="#photoModal{{ $data->id }}">
                                                 <i class='bx bx-show me-1'></i> Lihat Selengkapnya
@@ -75,3 +75,40 @@
         </div>
     </div>
 @endsection
+
+@push('scripts')
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+
+    <script>
+        function updateStatus(absensiId) {
+            $.ajax({
+                url: "{{ route('izin.absensi_update_status') }}",
+                type: "POST",
+                data: {
+                    absensi_id: absensiId,
+                    _token: "{{ csrf_token() }}"
+                },
+                success: function(response) {
+                    console.log("Status berhasil diperbarui:", response);
+                    // Update count di sidebar jika ada perubahan
+                    if (response.new_count !== undefined) {
+                        updateSidebarCount(response.new_count);
+                    }
+                },
+                error: function(xhr) {
+                    console.error("Terjadi kesalahan:", xhr.responseText);
+                }
+            });
+        }
+
+        function updateSidebarCount(newCount) {
+            var countElement = document.getElementById("notification-count-izin");
+            if (newCount === 0) {
+                countElement.textContent = "0"; // Sembunyikan badge jika 0
+            } else {
+                countElement.style.display = "inline-block"; // Tampilkan badge jika > 0
+                countElement.textContent = newCount; // Update jumlah
+            }
+        }
+    </script>
+@endpush

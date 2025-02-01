@@ -22,6 +22,7 @@ class CreateAbsensisTable extends Migration
             $table->string('status')->default('Hadir'); // Status bisa 'Hadir', 'Sakit', 'Izin', 'Alpa'
             $table->string('note')->nullable();
             $table->string('photo')->nullable();
+            $table->boolean('viewed')->default(false);
 
             $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

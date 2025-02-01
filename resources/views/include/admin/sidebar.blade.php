@@ -90,6 +90,9 @@
                             {{ $izinSakitCount }}
                         </span>
                     @endif --}}
+                    @php
+                        $izinSakitCount = App\Models\Absensi::where('status', 'Sakit')->where('viewed', false)->count();
+                    @endphp
                     <span id="notification-count-izin" class="badge bg-danger">
                         {{ isset($izinSakitCount) && $izinSakitCount > 0 ? $izinSakitCount : 0 }}
                     </span>
