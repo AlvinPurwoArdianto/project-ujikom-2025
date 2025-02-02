@@ -76,6 +76,10 @@
                     <span id="notification-count" class="badge bg-danger">
                         {{ isset($cutiNotifications) && $cutiNotifications->count() > 0 ? $cutiNotifications->count() : 0 }}
                     </span>
+
+                    <audio id="notification-sound">
+                        <source src="{{ asset('sounds/notif_lingkaran.mp3') }}" type="audio/mpeg">
+                    </audio>
                 </div>
             </a>
         </li>
@@ -96,10 +100,6 @@
                     <span id="notification-count-izin" class="badge bg-danger">
                         {{ isset($izinSakitCount) && $izinSakitCount > 0 ? $izinSakitCount : 0 }}
                     </span>
-
-                    <audio id="notification-sound">
-                        <source src="{{ asset('sounds/notif_lingkaran.mp3') }}" type="audio/mpeg">
-                    </audio>
                 </div>
             </a>
         </li>
