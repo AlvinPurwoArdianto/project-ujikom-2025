@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 use App\Exports\AbsensiExport;
 use App\Exports\CutiExport;
 use App\Exports\PegawaiExport;
+use App\Exports\PenggajianExport;
 use App\Models\Absensi;
 use App\Models\Cutis;
 use App\Models\Jabatan;
+use App\Models\Penggajian;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -165,4 +167,47 @@ class LaporanController extends Controller
         return view('admin.laporan.cuti', compact('cuti', 'pegawai'));
     }
 
+    public function penggajian(Request $request)
+    {
+        $pegawai      = User::where('is_admin', 0)->get();
+        $tanggalAwal  = $request->input('tanggal_awal');
+        $tanggalAkhir = $request->input('tanggal_akhir');
+        $pegawaiId    = $request->input('pegawai');
+        $status       = $request->input('status');
+
+        $penggajianQuery = Penggajian::with(['pegawai.jabatan']);
+
+        if ($tanggalAwal && $tanggalAkhir) {
+            $penggajianQuery->whereBetween('tanggal_penggajian', [$tanggalAwal, $tanggalAkhir]);
+        }
+
+        if ($pegawaiId) {
+            $penggajianQuery->where('id_user', $pegawaiId);
+        }
+
+        if ($status) {
+            $penggajianQuery->where('status', $status);
+        }
+
+        $penggajian = $penggajianQuery->latest()->get();
+
+        // Tampilkan PDF
+        if ($request->has('view_pdf')) {
+            $pdf = PDF::loadView('admin.laporan.pdf_penggajian', compact('penggajian'));
+            return $pdf->stream('laporan_penggajian.pdf');
+        }
+
+        // Unduh PDF
+        if ($request->has('download_pdf')) {
+            $pdf = PDF::loadView('admin.laporan.pdf_penggajian', compact('penggajian'));
+            return $pdf->download('laporan_penggajian.pdf');
+        }
+
+        // Export Excel
+        if ($request->has('download_excel')) {
+            return Excel::download(new PenggajianExport($tanggalAwal, $tanggalAkhir, $pegawaiId), 'laporan_penggajian.xlsx');
+        }
+
+        return view('admin.laporan.penggajian', compact('penggajian', 'pegawai'));
+    }
 }

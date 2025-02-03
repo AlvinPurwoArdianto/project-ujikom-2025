@@ -78,7 +78,7 @@
                     </span>
 
                     <audio id="notification-sound">
-                        <source src="{{ asset('sounds/notif_lingkaran.mp3') }}" type="audio/mpeg">
+                        <source src="{{ asset('sounds/notif_shopee.mp3') }}" type="audio/mpeg">
                     </audio>
                 </div>
             </a>
@@ -138,8 +138,8 @@
                         <div data-i18n="Basic">Laporan Cuti</div>
                     </a>
                 </li>
-                <li class="menu-item"> {{-- {{ request()->routeIs('laporan.penggajian') ? 'active' : '' }} --}}
-                    <a href="#" class="menu-link">
+                <li class="menu-item {{ request()->routeIs('laporan.penggajian') ? 'active' : '' }}">
+                    <a href="{{ route('laporan.penggajian') }}" class="menu-link">
                         <div data-i18n="Basic">Laporan Penggajian</div>
                     </a>
                 </li>

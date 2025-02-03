@@ -37,23 +37,26 @@
             <tr>
                 <th>No</th>
                 <th>Nama Pegawai</th>
-                <th>Tanggal</th>
-                <th>Jam Masuk</th>
-                <th>Jam Pulang</th>
-                <th>Status</th>
-                <th>Keterangan</th>
+                <th>Tanggal Gajian</th>
+                <th>Jumlah Gaji Pokok</th>
+                <th>Jumlah Potongan</th>
+                <th>Jumlah Bonus</th>
+                <th>Jumlah Gaji Bersih</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($absensi as $item)
+            @foreach ($penggajian as $item)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $item->user ? $item->user->nama_pegawai : 'N/A' }}</td>
-                    <td>{{ $item->tanggal_absen }}</td>
-                    <td>{{ $item->jam_masuk }}</td>
-                    <td>{{ $item->jam_keluar }}</td>
-                    <td>{{ $item->status }}</td>
-                    <td>{{ $item->note }}</td>
+                    <td>{{ $item->pegawai ? $item->pegawai->nama_pegawai : 'Tidak Ada Nama' }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tanggal_gaji)->translatedFormat('d F Y') }}
+                    </td>
+                    <td>Rp {{ number_format($item->jumlah_gaji, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($item->potongan, 0, ',', '.') }}</td>
+                    <td>Rp {{ number_format($item->bonus, 0, ',', '.') }}</td>
+                    <td>Rp
+                        {{ number_format($item->jumlah_gaji + $item->bonus - $item->potongan, 0, ',', '.') }}
+                    </td>
                 </tr>
             @endforeach
         </tbody>

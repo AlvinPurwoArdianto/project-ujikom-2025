@@ -116,6 +116,9 @@
                                 } else if (absensiData.status === 'Sakit') {
                                     cellClass = 'bg-warning text-white';
                                     statusText = 'Sakit';
+                                } else if (absensiData.status === 'Telat') {
+                                    cellClass = 'bg-warning text-white';
+                                    statusText = 'Telat';
                                 }
                             } else {
                                 cellClass = 'bg-secondary text-white';
