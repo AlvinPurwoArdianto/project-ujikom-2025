@@ -4,7 +4,7 @@
 @endsection
 @section('content')
     <div class="container-xxl flex-grow-1 container-p-y">
-        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> penggajian</h4>
+        <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light">Menu /</span> Penggajian</h4>
 
         {{-- UNTUK TOAST NOTIFIKASI --}}
         <div class="toast-container position-fixed top-0 end-0 p-3">
@@ -90,13 +90,19 @@
 
         <div class="card">
             <h5 class="card-header">
-                <button type="button" class="btn rounded-pill btn-info" data-bs-toggle="modal"
+                {{-- <button type="button" class="btn rounded-pill btn-info" data-bs-toggle="modal"
                     data-bs-target="#createModal"
                     style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                     <i class="bi bi-person-fill-add" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="left"
                         data-bs-html="true" title="Add penggajian"></i>
                     Add penggajian
-                </button>
+                </button> --}}
+                <a href="{{ route('penggajian.create') }}" class="btn rounded-pill btn-info" data-bs-toggle="tooltip"
+                    data-bs-offset="0,4" data-bs-placement="left" data-bs-html="true" title="Add penggajian"
+                    style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                    <i class="bi bi-person-fill-add"></i>
+                    Add penggajian
+                </a>
                 Add penggajian
             </h5>
 
@@ -130,13 +136,20 @@
                                     <form action="{{ route('penggajian.destroy', $data->id) }}" method="POST">
                                         @csrf
                                         @method('DELETE')
-                                        <a href="javascript:void(0)" class="btn rounded-pill btn-primary"
-                                            data-bs-toggle="modal" data-bs-target="#editModal{{ $data->id }}"
+                                        <a href="{{ route('penggajian.edit', $data->id) }}"
+                                            class="btn rounded-pill btn-primary"
                                             style="padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
                                             <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
                                                 data-bs-placement="left" data-bs-html="true" title="Edit penggajian"></i>
 
                                         </a>
+                                        {{-- <a href="{{ route('penggajian.edit', $data->id) }}"
+                                            class="btn rounded-pill btn-info" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                            data-bs-placement="left" data-bs-html="true" title="Add penggajian"
+                                            style="float: right; padding-left: 20px; padding-right: 20px; padding-top: 7px; padding-bottom: 7px">
+                                            <i class="bi bi-pencil-square" data-bs-toggle="tooltip" data-bs-offset="0,4"
+                                                data-bs-placement="left" data-bs-html="true" title="Edit penggajian"></i>
+                                        </a> --}}
 
                                         <a href="{{ route('penggajian.destroy', $data->id) }}"
                                             class="btn rounded-pill btn-danger" data-confirm-delete="true"

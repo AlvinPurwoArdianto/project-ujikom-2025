@@ -98,7 +98,7 @@
                                     <th>Potongan</th>
                                     <th>Bonus</th>
                                     <th>Jumlah Gaji Bersih</th>
-                                    <th>Status</th>
+                                    {{-- <th>Status</th> --}}
                                 </tr>
                             </thead>
                             <tbody>
@@ -119,7 +119,7 @@
                                             <td>Rp
                                                 {{ number_format($item->jumlah_gaji + $item->bonus - $item->potongan, 0, ',', '.') }}
                                             </td>
-                                            <td>Successfully</td>
+                                            {{-- <td>Successfully</td> --}}
                                         </tr>
                                     @endif
                                 @endforeach

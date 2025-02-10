@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Absensi;
+use App\Models\Jabatan;
 use App\Models\Penggajian;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -34,7 +35,8 @@ class PenggajianController extends Controller
     {
         $penggajian = Penggajian::all();
         $pegawai    = User::all();
-        return view('admin.penggajian.index', compact('penggajian', 'pegawai'));
+        $jabatan    = Jabatan::all();
+        return view('admin.penggajian.create', compact('penggajian', 'pegawai', 'jabatan'));
     }
 
     // public function store(Request $request)
@@ -134,6 +136,18 @@ class PenggajianController extends Controller
         ]);
 
         return redirect()->route('penggajian.index')->with('success', 'Data penggajian berhasil disimpan!');
+    }
+
+    public function edit($id)
+    {
+        $penggajian = Penggajian::find($id);
+        $pegawai    = User::all();
+        $jabatan    = Jabatan::all();
+
+        $bonus    = $penggajian->bonus ?? 0;
+        $potongan = $penggajian->potongan ?? 0;
+
+        return view('admin.penggajian.edit', compact('penggajian', 'pegawai', 'jabatan', 'bonus', 'potongan'));
     }
 
     public function update(Request $request, $id)

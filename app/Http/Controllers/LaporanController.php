@@ -178,7 +178,7 @@ class LaporanController extends Controller
         $penggajianQuery = Penggajian::with(['pegawai.jabatan']);
 
         if ($tanggalAwal && $tanggalAkhir) {
-            $penggajianQuery->whereBetween('tanggal_penggajian', [$tanggalAwal, $tanggalAkhir]);
+            $penggajianQuery->whereBetween('tanggal_gaji', [$tanggalAwal, $tanggalAkhir]);
         }
 
         if ($pegawaiId) {

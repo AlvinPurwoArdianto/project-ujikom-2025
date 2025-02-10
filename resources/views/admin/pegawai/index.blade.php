@@ -140,13 +140,8 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{ route('pegawai.edit', $data->id) }}"><i
-                                                        class="bx bx-edit-alt me-1"></i> Edit</a>
-                                                <a class="dropdown-item" data-bs-toggle="modal"
-                                                    data-bs-target="#pegawaiDetailModal{{ $data->id }}">
+                                                        class="bx bx-edit-alt me-1"></i> Edit</a>ass="dropdown-item">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
-
-                                                {{-- <a class="dropdown-item" href="{{ route('impersonate', $data->id) }}">
-                                                    <i class="bi bi-eye-fill"></i> Impersonate User</a> --}}
 
                                                 <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"
                                                     class="dropdown-item" data-confirm-delete="true"><i
@@ -157,58 +152,6 @@
                                     </form>
                                 </td>
                             </tr>
-
-
-                            <!-- Modal Detail Pegawai -->
-                            <div class="modal fade" id="pegawaiDetailModal{{ $data->id }}" tabindex="-1"
-                                aria-labelledby="pegawaiDetailModalLabel{{ $data->id }}" aria-hidden="true"
-                                data-bs-backdrop="static">
-                                <div class="modal-dialog modal-lg modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="pegawaiDetailModalLabel{{ $data->id }}">
-                                                Detail Pegawai -
-                                                {{ $data->nama_pegawai }}</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <p><strong>Nama:</strong> {{ $data->nama_pegawai }} </p>
-                                            <p><strong>Jabatan:</strong>
-                                                {{ $data->jabatan ? $data->jabatan->nama_jabatan : 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Tempat Lahir:</strong>
-                                                {{ $data->tempat_lahir ? $data->tempat_lahir : 'Tidak Ada' }} </p>
-                                            <p><strong>Tanggal Lahir:</strong>
-                                                {{ $data->tanggal_lahir ? \Carbon\Carbon::parse($data->tanggal_lahir)->translatedFormat('d F Y') : 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Email:</strong> {{ $data->email }} </p>
-                                            <p><strong>Alamat:</strong> {{ $data->alamat ? $data->alamat : 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Tanggal Masuk:</strong>
-                                                {{ $data->tanggal_masuk ? \Carbon\Carbon::parse($data->tanggal_masuk)->translatedFormat('d F Y') : 'Tidak Ada' }}
-                                            </p>
-                                            <p><strong>Umur:</strong> {{ $data->umur }} Tahun </p>
-                                            <p><strong>Gaji:</strong> {{ $data->gaji ?? 'Tidak Ada' }} </p>
-                                            <p><strong>Ditempatkan
-                                                    di:</strong>{{ $data->nama_provinsi . ', ' . $data->nama_kota . ', ' . $data->nama_kecamatan . ', ' . $data->nama_kelurahan }}
-                                            </p>
-
-                                            <p><strong>Status:</strong>
-                                                @if ($data->status_pegawai == 1)
-                                                    <span class="badge bg-label-info">— Pegawai Aktif —</span>
-                                                @else
-                                                    <span class="badge bg-label-dark">— Pegawai Tidak Aktif —</span>
-                                                @endif
-                                            </p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         @endforeach
                     </tbody>
                 </table>

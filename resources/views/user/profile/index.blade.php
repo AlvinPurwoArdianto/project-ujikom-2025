@@ -75,7 +75,7 @@
                             <div class="col-md-3 mb-3">
                                 <p class="mb-0 font-weight-bold text-dark">Gaji</p>
                                 <p class="text-muted">
-                                    {{ Auth::user()->gaji ? 'Rp ' . number_format(Auth::user()->gaji, 0, ',', '.') : 'Belum Ada Gaji' }}
+                                    {{ \App\Models\User::find(Auth::id())->gaji ? 'Rp ' . number_format(\App\Models\User::find(Auth::id())->gaji, 0, ',', '.') : 'Belum Ada Gaji' }}
                                 </p>
                             </div>
                             <div class="col-md-3 mb-3">

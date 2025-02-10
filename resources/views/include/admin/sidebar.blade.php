@@ -30,11 +30,6 @@
                 <div data-i18n="Authentications">Management Karyawan</div>
             </a>
             <ul class="menu-sub">
-                {{-- <li class="menu-item {{ request()->routeIs('pegawai.admin') ? 'active' : '' }}">
-                    <a href="{{ route('pegawai.admin') }}" class="menu-link">
-                        <div data-i18n="Basic">Akun Admin</div>
-                    </a>
-                </li> --}}
                 <li class="menu-item {{ request()->routeIs('jabatan.*') ? 'active' : '' }}">
                     <a href="{{ route('jabatan.index') }}" class="menu-link">
                         <div data-i18n="Basic">Jabatan</div>
@@ -48,7 +43,7 @@
                 </li>
             </ul>
         </li>
-        <li class="menu-item {{ url()->current() == route('penggajian.index') ? 'active' : '' }}">
+        <li class="menu-item {{ request()->routeIs('penggajian.*') ? 'active' : '' }}">
             <a href="{{ route('penggajian.index') }}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-wallet"></i>
                 <div data-i18n="Analytics">Penggajian</div>

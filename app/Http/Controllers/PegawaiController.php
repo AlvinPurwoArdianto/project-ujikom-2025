@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 use App\Models\Jabatan;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class PegawaiController extends Controller
 {
@@ -125,7 +127,44 @@ class PegawaiController extends Controller
      */
     public function show($id)
     {
-        //
+        $pegawai = User::findOrFail($id);
+        $jabatan = Jabatan::all();
+
+        $pegawai->umur = Carbon::parse($pegawai->tanggal_lahir)->age;
+
+        // Ambil data provinsi
+        $responseProvinsi = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
+        $provinsis        = $responseProvinsi->json();
+
+        // Ambil data nama provinsi
+        $provinsi               = collect($provinsis)->firstWhere('id', (string) $pegawai->provinsi);
+        $pegawai->nama_provinsi = $provinsi ? $provinsi['name'] : 'Provinsi tidak ditemukan';
+
+        // Ambil data kota berdasarkan ID provinsi
+        $responseKota = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/{$pegawai->provinsi}.json");
+        $kotas        = $responseKota->json();
+
+        // Ambil nama kota
+        $kota               = collect($kotas)->firstWhere('id', (string) $pegawai->kabupaten);
+        $pegawai->nama_kota = $kota ? $kota['name'] : 'Kota tidak ditemukan';
+
+        // Ambil data kecamatan berdasarkan ID kabupaten
+        $responseKecamatan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/{$pegawai->kabupaten}.json");
+        $kecamatans        = $responseKecamatan->json();
+
+        // Ambil nama kecamatan
+        $kecamatan               = collect($kecamatans)->firstWhere('id', (string) $pegawai->kecamatan);
+        $pegawai->nama_kecamatan = $kecamatan ? $kecamatan['name'] : 'Kecamatan tidak ditemukan';
+
+        // Ambil data kelurahan berdasarkan ID kecamatan
+        $responseKelurahan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/{$pegawai->kecamatan}.json");
+        $kelurahans        = $responseKelurahan->json();
+
+        // Ambil nama kelurahan
+        $kelurahan               = collect($kelurahans)->firstWhere('id', (string) $pegawai->kelurahan);
+        $pegawai->nama_kelurahan = $kelurahan ? $kelurahan['name'] : 'Kelurahan tidak ditemukan';
+
+        return view('admin.pegawai.show', compact('pegawai', 'jabatan'));
     }
 
     /**
