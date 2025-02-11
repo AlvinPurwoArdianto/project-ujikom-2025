@@ -140,7 +140,9 @@
                                             </button>
                                             <div class="dropdown-menu">
                                                 <a class="dropdown-item" href="{{ route('pegawai.edit', $data->id) }}"><i
-                                                        class="bx bx-edit-alt me-1"></i> Edit</a>ass="dropdown-item">
+                                                        class="bx bx-edit-alt me-1"></i> Edit</a>
+
+                                                <a href="{{ route('pegawai.show', $data->id) }}" class="dropdown-item">
                                                     <i class="bi bi-eye-fill"></i> Lihat Detail</a>
 
                                                 <a href="{{ route('pegawai.destroy', $data->id) }}" type="submit"

@@ -30,10 +30,8 @@
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $data->user->nama_pegawai }}</td>
                                     <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
-                                    <td class="align-items-center">
-                                        <!-- Gambar diperbesar -->
+                                    <td class="align-items-center">\
                                         @if ($data->photo)
-                                            <!-- Tombol Lihat Selengkapnya di sebelah kanan -->
                                             <button type="button" onclick="updateStatus({{ $data->id }})"
                                                 class="btn btn-outline-primary btn-sm ms-auto align-items-center"
                                                 data-bs-toggle="modal" data-bs-target="#photoModal{{ $data->id }}">

@@ -60,19 +60,12 @@
                 <i class="menu-icon bx bx-user-check"></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 59px">
                     Aprove Cuti
-                    {{-- <span id="notification-count-container">
-                        @if (isset($cutiNotifications) && $cutiNotifications->count() > 0)
-                            <span id="notification-count" class="badge bg-danger">
-                                {{ $cutiNotifications->count() }}
-                            </span>
-                        @endif
-                    </span> --}}
 
                     <span id="notification-count" class="badge bg-danger">
                         {{ isset($cutiNotifications) && $cutiNotifications->count() > 0 ? $cutiNotifications->count() : 0 }}
                     </span>
 
-                    <audio id="notification-sound">
+                    <audio id="cuti-notification-sound">
                         <source src="{{ asset('sounds/notif_shopee.mp3') }}" type="audio/mpeg">
                     </audio>
                 </div>
@@ -84,17 +77,16 @@
                 <i class="menu-icon bx bx-plus-medical"></i>
                 <div data-i18n="Analytics" style="display: flex; gap: 75px">
                     Izin Sakit
-                    {{-- @if (isset($izinSakitCount) && $izinSakitCount > 0)
-                        <span id="notification-count-izin" class="badge bg-danger">
-                            {{ $izinSakitCount }}
-                        </span>
-                    @endif --}}
                     @php
                         $izinSakitCount = App\Models\Absensi::where('status', 'Sakit')->where('viewed', false)->count();
                     @endphp
                     <span id="notification-count-izin" class="badge bg-danger">
                         {{ isset($izinSakitCount) && $izinSakitCount > 0 ? $izinSakitCount : 0 }}
                     </span>
+
+                    <audio id="izin-notification-sound">
+                        <source src="{{ asset('sounds/notif_shopee.mp3') }}" type="audio/mpeg">
+                    </audio>
                 </div>
             </a>
         </li>
@@ -153,7 +145,7 @@
             </a>
         </li> --}}
     </ul>
-    <!-- Add AJAX Script Here -->
+
     <script>
         let previousNotificationCount = {{ isset($cutiNotifications) ? $cutiNotifications->count() : 0 }};
 
@@ -167,7 +159,8 @@
                     $('#notification-count').text(newCount).show();
 
                     if (newCount > previousNotificationCount) {
-                        document.getElementById('notification-sound').play();
+                        let audio = document.getElementById('cuti-notification-sound');
+                        audio.play().catch(error => console.log('Gagal memutar audio:', error));
                     }
 
                     previousNotificationCount = newCount;
@@ -181,4 +174,34 @@
         // Memanggil fungsi setiap 5 detik
         setInterval(checkNotifications, 5000);
     </script>
+
+    <script>
+        let previousIzinSakitCount = {{ isset($izinSakitCount) ? $izinSakitCount : 0 }};
+
+        function checkIzinSakitNotifications() {
+            $.ajax({
+                url: '{{ route('izin.notifications') }}', // Pastikan route ini ada di web.php
+                type: 'GET',
+                success: function(response) {
+                    let newIzinCount = response.count;
+
+                    $('#notification-count-izin').text(newIzinCount).show();
+
+                    if (newIzinCount > previousIzinSakitCount) {
+                        let audio = document.getElementById('izin-notification-sound');
+                        audio.play().catch(error => console.log('Gagal memutar audio:', error));
+                    }
+
+                    previousIzinSakitCount = newIzinCount;
+                },
+                error: function() {
+                    console.log('Gagal memuat notifikasi izin sakit');
+                }
+            });
+        }
+
+        // Memanggil fungsi setiap 5 detik
+        setInterval(checkIzinSakitNotifications, 5000);
+    </script>
+
 </aside>

@@ -66,26 +66,24 @@ class AbsensiController extends Controller
         }
 
         $note         = null;
-        $status       = 'Hadir';                                         // Default status adalah Hadir
-        $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta'); // Waktu batas telat
+        $status       = 'Hadir';
+        $latenessTime = Carbon::createFromTime(8, 0, 0, 'Asia/Jakarta');
 
         if ($currentTime->greaterThan($latenessTime)) {
             $diffInMinutes = $latenessTime->diffInMinutes($currentTime);
 
-                                                   // Menghitung jam dan menit
-            $hours   = floor($diffInMinutes / 60); // Jam
-            $minutes = $diffInMinutes % 60;        // Sisa menit setelah jam dihitung
+            $hours   = floor($diffInMinutes / 60);
+            $minutes = $diffInMinutes % 60;
 
-            // Menampilkan hasil dalam format "Telat X jam Y menit"
             if ($hours > 0) {
                 $note = "Telat $hours jam $minutes menit";
             } else {
                 $note = "Telat $minutes menit";
             }
 
-            $status = 'Telat'; // Jika telat, status diubah jadi 'Telat'
+            $status = 'Telat';
         } else {
-            $note = "Hadir tepat waktu"; // Jika tidak telat, catatan "Hadir tepat waktu"
+            $note = "Hadir tepat waktu";
         }
 
         // Menyimpan data absensi
@@ -94,7 +92,7 @@ class AbsensiController extends Controller
             'tanggal_absen' => $currentTime->toDateString(),
             'jam_masuk'     => $currentTime->toTimeString(),
             'note'          => $note,
-            'status'        => $status, // Menyimpan status (Hadir atau Telat)
+            'status'        => $status,
         ]);
 
         return redirect()->route('absensi.index')->with('success', 'Absen Masuk berhasil disimpan!');
@@ -134,9 +132,7 @@ class AbsensiController extends Controller
             return redirect()->back()->with('error', 'Data absensi tidak ditemukan untuk hari ini.');
         }
 
-        // Check if it's the correct time to perform check-out
         // if ($currentTime->between(Carbon::createFromTime(15, 0, 0), Carbon::createFromTime(16, 0, 0))) {
-        // Update only if `jam_keluar` is not already set
         if (is_null($absensi->jam_keluar)) {
             $absensi->jam_keluar = $currentTime->toTimeString();
             $absensi->save();
@@ -155,19 +151,19 @@ class AbsensiController extends Controller
         $id_user       = Auth::user()->id;
         $tanggal_absen = \Carbon\Carbon::today('Asia/Jakarta')->format('Y-m-d');
 
-        // Cek apakah sudah ada absen di tanggal ini
         $absensi = Absensi::where('id_user', $id_user)->where('tanggal_absen', $tanggal_absen)->first();
 
         if ($absensi) {
             return redirect()->back()->with('error', 'Anda sudah absen hari ini');
         }
 
-        // Simpan absen sakit
         $absensi                = new Absensi();
+        $absensi->jam_masuk     = '-';
+        $absensi->jam_keluar    = '-';
         $absensi->id_user       = $id_user;
         $absensi->tanggal_absen = $tanggal_absen;
         $absensi->status        = 'Sakit';
-        $absensi->note          = $request->note;
+        $absensi->note          = 'Sakit';
 
         if ($request->hasFile('photo')) {
             $file           = $request->file('photo');
@@ -224,6 +220,15 @@ class AbsensiController extends Controller
         return response()->json([
             'message'   => 'Status updated',
             'new_count' => $newCount,
+        ]);
+    }
+
+    public function getNotifications()
+    {
+        $izinSakitCount = Absensi::where('status', 'Sakit')->count();
+
+        return response()->json([
+            'count' => $izinSakitCount,
         ]);
     }
 }

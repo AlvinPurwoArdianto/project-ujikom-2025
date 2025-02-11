@@ -1,6 +1,24 @@
 @extends('layouts.user.template')
 
 @section('content')
+    <style>
+        .card {
+            border-radius: 10px;
+        }
+
+        .card-header {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+        }
+
+        .list-unstyled li {
+            padding: 10px 0;
+        }
+    </style>
     <div class="container-fluid py-4">
         <div class="row mt-4">
             <!-- Card Selamat Datang -->
@@ -66,19 +84,28 @@
             const daysInMonth = new Date(year, month + 1, 0).getDate();
             const firstDayIndex = new Date(year, month, 1).getDay();
 
+            // Nama bulan
+            const monthNames = [
+                "Januari", "Februari", "Maret", "April", "Mei", "Juni",
+                "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+            ];
+
+            // Menampilkan bulan dan tahun
+            const monthYearHTML = `<h3 class="text-center">${monthNames[month]} ${year}</h3>`;
+
             let calendarHTML = `<table class="table table-bordered text-center mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Minggu</th>
-                                <th>Senin</th>
-                                <th>Selasa</th>
-                                <th>Rabu</th>
-                                <th>Kamis</th>
-                                <th>Jumat</th>
-                                <th>Sabtu</th>
-                            </tr>
-                        </thead>
-                        <tbody>`;
+                    <thead class="table-light">
+                        <tr>
+                            <th>Minggu</th>
+                            <th>Senin</th>
+                            <th>Selasa</th>
+                            <th>Rabu</th>
+                            <th>Kamis</th>
+                            <th>Jumat</th>
+                            <th>Sabtu</th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
 
             let day = 1;
             for (let i = 0; i < 6; i++) {
@@ -99,13 +126,18 @@
                         let cellClass = '';
                         let statusText = '';
 
-                        // Logic for determining cell color and status
+                        // Cek apakah hari tersebut adalah hari Minggu
+                        const isSunday = dateToCheck.getDay() === 0; // 0 adalah hari Minggu
+
                         if (isToday) {
                             cellClass = 'bg-primary text-white';
                             statusText = 'Hari Ini';
                         } else if (isFutureDate || isBeforeTanggalMasuk) {
                             cellClass = 'bg-white';
                             statusText = '';
+                        } else if (isSunday) {
+                            cellClass = 'bg-danger'; // Hari Minggu background putih
+                            statusText = 'Libur'; // Status untuk hari Minggu
                         } else {
                             const absensiData = absensi.find(item => item.tanggal_absen === currentDateString);
 
@@ -121,16 +153,19 @@
                                     statusText = 'Telat';
                                 }
                             } else {
-                                cellClass = 'bg-secondary text-white';
-                                statusText = 'Alfa';
+                                // Hanya menampilkan "Alfa" jika bukan hari Minggu
+                                if (!isSunday) {
+                                    cellClass = 'bg-secondary text-white';
+                                    statusText = 'Alfa';
+                                }
                             }
                         }
 
                         calendarHTML += `
-                    <td class="${cellClass}">
-                        ${day}<br>
-                        <small>${statusText}</small>
-                    </td>`;
+                <td class="${cellClass}">
+                    ${day}<br>
+                    <small>${statusText}</small>
+                </td>`;
                         day++;
                     }
                 }
@@ -138,7 +173,8 @@
             }
             calendarHTML += '</tbody></table>';
 
-            calendar.innerHTML = calendarHTML;
+            // Gabungkan bulan dan tahun dengan kalender
+            calendar.innerHTML = monthYearHTML + calendarHTML;
         }
 
         renderCalendar(currentDate);

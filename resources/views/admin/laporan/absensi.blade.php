@@ -117,10 +117,22 @@
                                         <td>{{ $item->user->nama_pegawai }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_absen)->translatedFormat('d F Y') }}
                                         </td>
-                                        <td>{{ \Carbon\Carbon::parse($item->jam_masuk)->translatedFormat('H:i') }}</td>
-                                        <td>{{ $item->jam_keluar ? \Carbon\Carbon::parse($item->jam_keluar)->translatedFormat('H:i') : 'Belum Absen Pulang' }}
-                                        </td>
                                         <td>{{ $item->status }}</td>
+                                        <td>
+                                            @if ($item->status === 'Sakit')
+                                                -
+                                            @else
+                                                {{ \Carbon\Carbon::parse($item->jam_masuk)->format('H.i') ?? 'Belum Absen Masuk' }}
+                                            @endif
+                                        </td>
+                                        <td>
+                                            @if ($item->status === 'Sakit')
+                                                -
+                                            @else
+                                                {{ $item->jam_keluar ? \Carbon\Carbon::parse($item->jam_keluar)->format('H.i') : 'Belum Absen Pulang' }}
+                                            @endif
+                                        </td>
+                                        </td>
                                         <td>{{ $item->note }}</td>
                                     </tr>
                                 @endforeach

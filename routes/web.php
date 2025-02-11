@@ -33,6 +33,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::put('cuti/reject/{id}', [CutisController::class, 'reject'])->name('cuti.reject');
     Route::get('izin-sakit', [AbsensiController::class, 'izinSakit'])->name('izin.sakit');
     Route::post('izin-sakit/update-status', [AbsensiController::class, 'absensiUpdateStatus'])->name('izin.absensi_update_status');
+    Route::get('izin-sakit/notifications', [AbsensiController::class, 'getNotifications'])->name('izin.notifications');
 
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');

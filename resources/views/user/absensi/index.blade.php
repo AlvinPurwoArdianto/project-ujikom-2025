@@ -163,17 +163,16 @@
                             <td>{{ $data->user->nama_pegawai }}</td>
                             <td>{{ \Carbon\Carbon::parse($data->tanggal_absen)->translatedFormat('d F Y') }}</td>
                             <td>
-                                @if ($data->status === 'sakit')
-                                    Sakit
+                                @if ($data->status === 'Sakit')
+                                    -
                                 @else
                                     {{ \Carbon\Carbon::parse($data->jam_masuk)->format('H.i') ?? 'Belum Absen Masuk' }}
                                 @endif
                             </td>
                             <td>
-                                @if ($data->status === 'sakit')
-                                    Sakit
+                                @if ($data->status === 'Sakit')
+                                    -
                                 @else
-                                    {{-- {{ \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') ?? 'Belum Absen Pulang' }} --}}
                                     {{ $data->jam_keluar ? \Carbon\Carbon::parse($data->jam_keluar)->format('H.i') : 'Belum Absen Pulang' }}
                                 @endif
                             </td>
