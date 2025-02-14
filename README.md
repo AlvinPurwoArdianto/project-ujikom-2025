@@ -1,66 +1,87 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# APLIKASI HRD
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Aplikasi HRD (Human Resource Development) adalah sistem manajemen sumber daya manusia yang dirancang untuk membantu perusahaan dalam mengelola data karyawan secara efektif dan efisien. Aplikasi ini menyediakan berbagai fitur seperti pengelolaan data karyawan, absensi, cuti, penggajian, dan laporan pegawai.
 
-## About Laravel
+## Daftar Isi
+- [Tentang Proyek](#tentang-proyek)
+- [Fitur](#fitur)
+- [Instalasi](#instalasi)
+- [Kontak](#kontak)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Tentang Proyek
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Aplikasi HRD (Human Resource Development) adalah sistem manajemen sumber daya manusia yang dirancang untuk membantu perusahaan dalam mengelola data karyawan secara efektif dan efisien. Aplikasi ini menyediakan berbagai fitur seperti pengelolaan data karyawan, absensi, cuti, penggajian, dan laporan kepegawaian.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Masalah yang Diselesaikan
+Banyak perusahaan menghadapi tantangan dalam mengelola data karyawan secara manual, seperti:
+- Penyimpanan data yang tidak terstruktur dan rentan hilang.
+- Kesulitan dalam memantau absensi dan cuti karyawan.
+- Proses penggajian yang memakan waktu dan rawan kesalahan.
+- Kurangnya laporan yang akurat untuk analisis kinerja karyawan.
 
-## Learning Laravel
+Aplikasi HRD ini hadir untuk menyelesaikan masalah tersebut dengan menyediakan sistem yang terintegrasi dan mudah digunakan.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Alasan Proyek Ini Dibuat
+Proyek ini dibuat untuk membantu perusahaan dalam:
+- Mempermudah manajemen data karyawan, absensi, dan cuti.
+- Memberikan kemudahan dalam pembuatan laporan kepegawaian.
+- Meminimalkan kesalahan dalam perhitungan gaji dan cuti.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Dengan menggunakan aplikasi HRD ini, perusahaan dapat meningkatkan produktivitas dan efisiensi operasional dalam mengelola sumber daya manusia.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Fitur
+- **Manajemen Karyawan**: 
+  - Tambah, edit, dan hapus data karyawan.
+  - Menyimpan informasi lengkap seperti data pribadi, jabatan, gaji, dan status kepegawaian.
+  
+- **Absensi Karyawan**: 
+  - Pencatatan kehadiran harian secara otomatis.
+  - Melihat riwayat absensi karyawan.
+  - Rekapitulasi absensi untuk keperluan laporan.
 
-## Laravel Sponsors
+- **Pengajuan dan Persetujuan Cuti**: 
+  - Pengajuan cuti oleh karyawan dengan alasan yang jelas.
+  - Persetujuan atau penolakan cuti oleh admin/HRD.
+  - Notifikasi status cuti (diterima atau ditolak).
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- **Penggajian (Payroll)**: 
+  - Perhitungan gaji karyawan berdasarkan absensi.
+  - Riwayat penggajian untuk setiap karyawan.
 
-### Premium Partners
+- **Laporan dan Statistik**: 
+  - Laporan data karyawan, absensi, dan cuti dalam bentuk PDF dan Excel.
+  - Filter laporan berdasarkan jabatan atau periode waktu.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+- **Manajemen Jabatan**: 
+  - Tambah, edit, dan hapus data jabatan.
+  - Menentukan hak akses berdasarkan jabatan.
 
-## Contributing
+- **Notifikasi**:
+  - Notifikasi kepada admin saat ada pengajuan cuti.
+  - Notifikasi kepada karyawan setelah persetujuan atau penolakan cuti.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+- **Keamanan dan Hak Akses**:
+  - Sistem login dengan peran pengguna (admin dan karyawan).
+  - Pembatasan akses berdasarkan hak pengguna.
 
-## Code of Conduct
+- **Responsif dan User-Friendly**: 
+  - Desain antarmuka yang responsif dan mudah digunakan.
+  - Kompatibel di berbagai perangkat (desktop dan mobile).
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+## Instalasi
+Langkah-langkah untuk menginstal proyek:
+```bash
+- git clone https://github.com/AlvinPurwoArdianto/project-ujikom-2025.git
+- cd project-ujikom-2025
+- composer update
+- php artisan key:generate
+- php artisan config:cache
+- php artisan migrate:fresh --seed
+- php artisan serve
+```
+## Kontak
+Jika Anda memiliki pertanyaan, saran, atau ingin berkontribusi pada proyek ini, silakan hubungi:  
 
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- Nama: Alvin Purwo Ardianto
+- Email: alvinpurwo03@gmail.com
+- Instagram: [https://www.instagram.com/alvinpwrd](https://www.instagram.com/alvinpwrd)
