@@ -149,4 +149,24 @@
 @push('scripts')
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#pegawai').select2();
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('select[name="pegawai"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_awal"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_akhir"]').on('change', function() {
+                this.form.submit();
+            });
+        });
+    </script>
 @endpush

@@ -37,7 +37,7 @@
                                 value="{{ request('tanggal_akhir') }}">
                         </div>
                         <div class="col-3">
-                            <select name="status" class="form-control">
+                            <select name="status" id="statusFilter" class="form-control">
                                 <option selected disabled>Pilih Status</option>
                                 <option value="Hadir" {{ request('status') == 'Hadir' ? 'selected' : '' }}>Hadir</option>
                                 <option value="Telat" {{ request('status') == 'Telat' ? 'selected' : '' }}>Telat</option>
@@ -117,7 +117,6 @@
                                         <td>{{ $item->user->nama_pegawai }}</td>
                                         <td>{{ \Carbon\Carbon::parse($item->tanggal_absen)->translatedFormat('d F Y') }}
                                         </td>
-                                        <td>{{ $item->status }}</td>
                                         <td>
                                             @if ($item->status === 'Sakit')
                                                 -
@@ -133,6 +132,7 @@
                                             @endif
                                         </td>
                                         </td>
+                                        <td>{{ $item->status }}</td>
                                         <td>{{ $item->note }}</td>
                                     </tr>
                                 @endforeach
@@ -195,6 +195,26 @@
 
             // Set URL ke iframe
             document.getElementById('pdfFrame').src = url;
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+
+            $('#statusFilter').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_awal"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_akhir"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('select[name="pegawai_id"]').on('change', function() {
+                this.form.submit();
+            });
         });
     </script>
 @endpush

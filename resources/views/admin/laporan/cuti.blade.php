@@ -216,4 +216,24 @@
     <script>
         new DataTable('#example')
     </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#status_cuti').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_awal"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('input[name="tanggal_akhir"]').on('change', function() {
+                this.form.submit();
+            });
+
+            $('select[name="pegawai"]').on('change', function() {
+                this.form.submit();
+            });
+        });
+    </script>
 @endpush
