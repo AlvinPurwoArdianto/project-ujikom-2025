@@ -78,6 +78,9 @@ Langkah-langkah untuk menginstal proyek:
 - php artisan config:cache
 - php artisan migrate:fresh --seed
 - php artisan serve
+
+LOGIN ADMIN : admin@gmail.com
+LOGIN PEGAWAI : sample1@gmail.com
 ```
 ## Kontak
 Jika Anda memiliki pertanyaan, saran, atau ingin berkontribusi pada proyek ini, silakan hubungi:  
