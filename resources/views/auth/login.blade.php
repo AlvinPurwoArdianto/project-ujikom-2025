@@ -231,14 +231,14 @@
                     </div>
                 </form>
             </div>
-
+            {{--
             <div class="line"></div>
             <div class="media-options">
                 <a href="{{ route('redirect') }}" class="field google">
                     <img src="{{ asset('admin/assets/img/google.png') }}" alt="" class="google-img">
                     <span>Login with Google</span>
                 </a>
-            </div>
+            </div> --}}
 
         </div>
     </section>
