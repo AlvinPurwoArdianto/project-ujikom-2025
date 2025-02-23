@@ -20,7 +20,8 @@ return new class extends Migration
             $table->text('alamat')->nullable();
             $table->date('tanggal_masuk')->nullable();
             $table->integer('gaji')->nullable()->default(0);
-            $table->boolean('status_pegawai')->nullable()->default(0);
+            // $table->boolean('status_pegawai')->nullable()->default(0);
+            $table->enum('status_pegawai', ['aktif', 'tidak_aktif'])->nullable()->default('tidak aktif');
 
             $table->unsignedBigInteger('id_jabatan')->nullable();
             $table->foreign('id_jabatan')->references('id')->on('jabatans')->onDelete('restrict');

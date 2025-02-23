@@ -35,6 +35,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', isAdmin::class]], fu
     Route::get('laporan/pegawai', [LaporanController::class, 'pegawai'])->name('laporan.pegawai');
     Route::get('laporan/absensi', [LaporanController::class, 'absensi'])->name('laporan.absensi');
     Route::get('laporan/cuti', [LaporanController::class, 'cuti'])->name('laporan.cuti');
+    Route::get('laporan/penggajian', [LaporanController::class, 'penggajian'])->name('laporan.penggajian');
 
     Route::get('export-database', [BackupDatabaseExport::class, 'export'])->name('export-database');
 });

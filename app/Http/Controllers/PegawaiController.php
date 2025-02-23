@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Jabatan;
@@ -18,37 +17,37 @@ class PegawaiController extends Controller
     public function index()
     {
         $responseProvinsi = Http::get('https://www.emsifa.com/api-wilayah-indonesia/api/provinces.json');
-        $provinsis = $responseProvinsi->json(); // Mengubah response menjadi array
+        $provinsis        = $responseProvinsi->json(); // Mengubah response menjadi array
 
         $pegawai = User::where('is_admin', 0)->get()->map(function ($pegawai) use ($provinsis) {
             $pegawai->umur = floor(Carbon::parse($pegawai->tanggal_lahir)->diffInYears(Carbon::now()));
 
             // Mencari nama provinsi berdasarkan ID provinsi
-            $provinsi = collect($provinsis)->firstWhere('id', (string) $pegawai->provinsi);
+            $provinsi               = collect($provinsis)->firstWhere('id', (string) $pegawai->provinsi);
             $pegawai->nama_provinsi = $provinsi ? $provinsi['name'] : 'Provinsi tidak ditemukan';
 
             // Mengambil data kota berdasarkan ID provinsi
             $responseKota = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/regencies/{$pegawai->provinsi}.json");
-            $kotas = $responseKota->json(); // Mengubah response menjadi array
+            $kotas        = $responseKota->json(); // Mengubah response menjadi array
 
             // Mencari nama kota berdasarkan ID kota pegawai
-            $kota = collect($kotas)->firstWhere('id', (string) $pegawai->kabupaten);
+            $kota               = collect($kotas)->firstWhere('id', (string) $pegawai->kabupaten);
             $pegawai->nama_kota = $kota ? $kota['name'] : 'Kota tidak ditemukan';
 
             // Mengambil data kecamatan berdasarkan ID kabupaten
             $responseKecamatan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/districts/{$pegawai->kabupaten}.json");
-            $kecamatans = $responseKecamatan->json(); // Mengubah response menjadi array
+            $kecamatans        = $responseKecamatan->json(); // Mengubah response menjadi array
 
             // Mencari nama kecamatan berdasarkan ID kecamatan pegawai
-            $kecamatan = collect($kecamatans)->firstWhere('id', (string) $pegawai->kecamatan);
+            $kecamatan               = collect($kecamatans)->firstWhere('id', (string) $pegawai->kecamatan);
             $pegawai->nama_kecamatan = $kecamatan ? $kecamatan['name'] : 'Kecamatan tidak ditemukan';
 
             // Mengambil data kecamatan berdasarkan ID kabupaten
             $responseKelurahan = Http::get("https://emsifa.github.io/api-wilayah-indonesia/api/villages/{$pegawai->kecamatan}.json");
-            $kelurahans = $responseKelurahan->json(); // Mengubah response menjadi array
+            $kelurahans        = $responseKelurahan->json(); // Mengubah response menjadi array
 
             // Mencari nama kecamatan berdasarkan ID kecamatan pegawai
-            $kelurahan = collect($kelurahans)->firstWhere('id', (string) $pegawai->kelurahan);
+            $kelurahan               = collect($kelurahans)->firstWhere('id', (string) $pegawai->kelurahan);
             $pegawai->nama_kelurahan = $kelurahan ? $kelurahan['name'] : 'Kelurahan tidak ditemukan';
 
             return $pegawai;
@@ -81,32 +80,32 @@ class PegawaiController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama_pegawai' => 'required|string|max:255',
-            'tempat_lahir' => 'required|string|max:255',
-            'tanggal_lahir' => 'required|date',
-            'jenis_kelamin' => 'required|string',
-            'alamat' => 'required|string',
-            'email' => 'required|email|max:255',
-            'tanggal_masuk' => 'nullable|date',
-            'gaji' => 'nullable|numeric',
+            'nama_pegawai'   => 'required|string|max:255',
+            'tempat_lahir'   => 'required|string|max:255',
+            'tanggal_lahir'  => 'required|date',
+            'jenis_kelamin'  => 'required|string',
+            'alamat'         => 'required|string',
+            'email'          => 'required|email|max:255',
+            'tanggal_masuk'  => 'nullable|date',
+            'gaji'           => 'nullable|numeric',
             'status_pegawai' => 'nullable|boolean',
-            'id_jabatan' => 'required|exists:jabatans,id',
+            'id_jabatan'     => 'required|exists:jabatans,id',
         ]);
 
-        $pegawai = new User();
-        $pegawai->nama_pegawai = $request->nama_pegawai;
-        $pegawai->tempat_lahir = $request->tempat_lahir;
-        $pegawai->tanggal_lahir = $request->tanggal_lahir;
-        $pegawai->jenis_kelamin = $request->jenis_kelamin;
-        $pegawai->alamat = $request->alamat;
-        $pegawai->email = $request->email;
-        $pegawai->password = Hash::make($request->password);
-        $pegawai->tanggal_masuk = $request->tanggal_masuk;
-        $pegawai->gaji = $request->gaji;
+        $pegawai                 = new User();
+        $pegawai->nama_pegawai   = $request->nama_pegawai;
+        $pegawai->tempat_lahir   = $request->tempat_lahir;
+        $pegawai->tanggal_lahir  = $request->tanggal_lahir;
+        $pegawai->jenis_kelamin  = $request->jenis_kelamin;
+        $pegawai->alamat         = $request->alamat;
+        $pegawai->email          = $request->email;
+        $pegawai->password       = Hash::make($request->password);
+        $pegawai->tanggal_masuk  = $request->tanggal_masuk;
+        $pegawai->gaji           = $request->gaji;
         $pegawai->status_pegawai = 0;
-        $pegawai->id_jabatan = $request->id_jabatan;
+        $pegawai->id_jabatan     = $request->id_jabatan;
 
-        $pegawai->provinsi = $request->provinsi;
+        $pegawai->provinsi  = $request->provinsi;
         $pegawai->kabupaten = $request->kabupaten;
         $pegawai->kecamatan = $request->kecamatan;
         $pegawai->kelurahan = $request->kelurahan;
@@ -141,16 +140,16 @@ class PegawaiController extends Controller
     {
         // Validate the request data
         $request->validate([
-            'nama_pegawai' => 'nullable|string|max:255',
-            'tempat_lahir' => 'nullable|string|max:255',
-            'tanggal_lahir' => 'nullable|date',
-            'jenis_kelamin' => 'nullable|string',
-            'alamat' => 'nullable|string',
-            'email' => 'nullable|email|max:255',
-            'tanggal_masuk' => 'nullable|date',
-            'gaji' => 'nullable|numeric',
+            'nama_pegawai'   => 'nullable|string|max:255',
+            'tempat_lahir'   => 'nullable|string|max:255',
+            'tanggal_lahir'  => 'nullable|date',
+            'jenis_kelamin'  => 'nullable|string',
+            'alamat'         => 'nullable|string',
+            'email'          => 'nullable|email|max:255',
+            'tanggal_masuk'  => 'nullable|date',
+            'gaji'           => 'nullable|numeric',
             'status_pegawai' => 'nullable|boolean',
-            'id_jabatan' => 'nullable|exists:jabatans,id',
+            'id_jabatan'     => 'nullable|exists:jabatans,id',
         ]);
 
         $data = $request->only([
@@ -172,7 +171,7 @@ class PegawaiController extends Controller
     {
         $pegawai = User::find($id);
 
-        if (!$pegawai) {
+        if (! $pegawai) {
             return redirect()->route('pegawai.index')->with('danger', 'Pegawai tidak ditemukan!');
         }
 

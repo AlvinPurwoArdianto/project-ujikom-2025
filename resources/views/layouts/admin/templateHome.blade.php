@@ -255,15 +255,15 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Chart 1
         const ctx1 = document.getElementById('myChart1').getContext('2d');
         new Chart(ctx1, {
             type: 'bar',
             data: {
-                labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+                labels: ['Hadir', 'Telat', 'Sakit'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 2, 3],
+                    label: 'Jumlah Absensi',
+                    data: [{{ $absensiHadir }}, {{ $absensiPulang }}, {{ $absensiSakit }}],
+                    backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
                     borderWidth: 1
                 }]
             },
@@ -275,16 +275,40 @@
                 }
             }
         });
-
-        // Chart 2
+    </script>
+    <script>
+        // Data absensi per tahun (contoh Laravel data)
         const ctx2 = document.getElementById('myChart2').getContext('2d');
         new Chart(ctx2, {
             type: 'bar',
             data: {
-                labels: ['January', 'February', 'March', 'April', 'May', 'June'],
+                labels: {!! json_encode(array_keys($absensiPerTahun->toArray())) !!}, // Tahun sebagai label
                 datasets: [{
-                    label: '# of Sales',
-                    data: [5, 10, 15, 20, 25, 30],
+                    label: 'Jumlah Absensi per Tahun',
+                    data: {!! json_encode(array_values($absensiPerTahun->toArray())) !!}, // Jumlah absensi sebagai data
+                    backgroundColor: '#42A5F5', // Warna grafik
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const ctx = document.getElementById('absensiChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Hadir', 'Pulang', 'Sakit'],
+                datasets: [{
+                    label: 'Jumlah Absensi',
+                    data: [{{ $absensiHadir }}, {{ $absensiPulang }}, {{ $absensiSakit }}],
+                    backgroundColor: ['#4CAF50', '#FF9800', '#F44336'],
                     borderWidth: 1
                 }]
             },
